@@ -130,8 +130,8 @@
     <QtRcc Include="VR_Scene.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.h" />
-    <ClInclude Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.h" />
+    <QtMoc Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.h" />
+    <QtMoc Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

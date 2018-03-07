@@ -2,6 +2,10 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_VR_Scene.h"
+#include<qpushbutton.h>
+#include<qboxlayout.h>
+#include<qwidget.h>
+#include<qcombobox.h>
 
 class VR_Scene : public QMainWindow
 {
@@ -12,4 +16,8 @@ public:
 
 private:
 	Ui::VR_SceneClass ui;
+	QPushButton * btnColorCalib, * btnSpaceCalib, * btnStartScene;
+	QVBoxLayout * mainLayout;
+	QWidget * mainWidget;
+	QComboBox * camSelection;
 };
