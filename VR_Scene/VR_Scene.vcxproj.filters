@@ -36,6 +36,12 @@
     <ClCompile Include="VR_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -51,5 +57,13 @@
     <QtRcc Include="VR_Scene.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
