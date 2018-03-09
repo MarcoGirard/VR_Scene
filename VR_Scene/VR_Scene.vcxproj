@@ -118,6 +118,7 @@
     <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.cpp" />
     <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="VR_ColorCalibrator.cpp" />
     <ClCompile Include="VR_Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +133,9 @@
   <ItemGroup>
     <QtMoc Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_CameraInterface.h" />
     <QtMoc Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="VR_ColorCalibrator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -20,4 +20,11 @@ VR_Scene::VR_Scene(QWidget *parent)
 	mainWidget->setLayout(mainLayout);
 	setCentralWidget(mainWidget);
 
+	connect(btnColorCalib, &QPushButton::pressed, this, &VR_Scene::startColorCalibrator);
+}
+
+void VR_Scene::startColorCalibrator()
+{
+	colorCalibrator = new QDialog(this);
+	colorCalibrator->exec();
 }
