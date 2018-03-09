@@ -120,6 +120,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VR_calibrationWidget.cpp" />
     <ClCompile Include="VR_ColorCalibrator.cpp" />
+    <ClCompile Include="VR_ImageProcess.cpp" />
     <ClCompile Include="VR_Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_calibrationWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="VR_ImageProcess.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
