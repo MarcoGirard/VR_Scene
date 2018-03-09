@@ -45,6 +45,9 @@
     <ClCompile Include="VR_ColorCalibrator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VR_calibrationWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="VR_ColorCalibrator.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="VR_calibrationWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

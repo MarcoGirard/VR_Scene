@@ -7,6 +7,7 @@
 #include<qwidget.h>
 #include<qcombobox.h>
 #include<qdialog.h>
+#include "VR_ColorCalibrator.h"
 
 class VR_Scene : public QMainWindow
 {
@@ -21,7 +22,7 @@ private:
 	QVBoxLayout * mainLayout;
 	QWidget * mainWidget;
 	QComboBox * camSelection;
-	QDialog * colorCalibrator;
+	VR_ColorCalibrator * colorCalibrator;
 
 private slots:
 	void startColorCalibrator();

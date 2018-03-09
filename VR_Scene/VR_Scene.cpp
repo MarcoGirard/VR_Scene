@@ -25,6 +25,6 @@ VR_Scene::VR_Scene(QWidget *parent)
 
 void VR_Scene::startColorCalibrator()
 {
-	colorCalibrator = new QDialog(this);
+	colorCalibrator = new VR_ColorCalibrator(this);
 	colorCalibrator->exec();
 }
