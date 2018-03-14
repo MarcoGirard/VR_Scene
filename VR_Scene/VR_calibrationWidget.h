@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VR_CALIBRATIONWIDGET_H
+#define VR_CALIBRATIONWIDGET_H
 
 #include <QWidget>
 #include <qtabwidget.h>
@@ -18,3 +19,5 @@ public:
 
 
 };
+
+#endif //VR_CALIBRATIONWIDGET

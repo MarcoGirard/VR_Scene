@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VR_COLORCALIBRATION_H
+#define VR_COLORCALIBRATION_H
 
 #include <QObject>
 #include <qdialog.h>
@@ -20,3 +21,5 @@ public:
 	VR_ColorCalibrator(QWidget *parent);
 	~VR_ColorCalibrator();
 };
+
+#endif //VR_COLORCALIBRATION_H
