@@ -7,7 +7,7 @@ public:
 	VR_ImageProcess();
 	~VR_ImageProcess();
 
-	virtual void process(Mat imgIn, Mat imgOut) = 0;
+	virtual void process(QImage imgIn, QImage imgOut) = 0;
 	virtual QPixmap getPixmap() = 0;
 };
 
