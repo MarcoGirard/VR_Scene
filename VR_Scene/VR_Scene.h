@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VR_SCENE_H
+#define VR_SCENE_H
 
 #include <QtWidgets/QMainWindow>
 #include "ui_VR_Scene.h"
@@ -27,3 +28,5 @@ private:
 private slots:
 	void startColorCalibrator();
 };
+
+#endif //VR_SCENE
