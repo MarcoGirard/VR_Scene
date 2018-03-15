@@ -51,7 +51,10 @@
     <ClCompile Include="VR_ImageProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VR_FrameGrabber2.cpp">
+    <ClCompile Include="VR_FrameGrabberProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VR_CameraFrameGrabber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,6 +74,12 @@
     <QtMoc Include="VR_calibrationWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="VR_FrameGrabberProcess.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="VR_CameraFrameGrabber.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="VR_Scene.ui">
@@ -84,9 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VR_ImageProcess.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VR_FrameGrabber2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

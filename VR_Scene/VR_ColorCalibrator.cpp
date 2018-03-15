@@ -17,3 +17,8 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 VR_ColorCalibrator::~VR_ColorCalibrator()
 {
 }
+
+void VR_ColorCalibrator::receiveFrame(QImage frame)
+{
+
+}

@@ -1,17 +1,15 @@
-#include "VR_FrameGrabber2.h"
+#include "VR_CameraFrameGrabber.h"
 
-
-
-VR_FrameGrabber2::VR_FrameGrabber2() 
+VR_CameraFrameGrabber::VR_CameraFrameGrabber(QObject *parent)
+	: QAbstractVideoSurface(parent)	
 {
 }
 
-
-VR_FrameGrabber2::~VR_FrameGrabber2()
+VR_CameraFrameGrabber::~VR_CameraFrameGrabber()
 {
 }
 
-QList<QVideoFrame::PixelFormat> VR_FrameGrabber2::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
+QList<QVideoFrame::PixelFormat> VR_CameraFrameGrabber::supportedPixelFormats(QAbstractVideoBuffer::HandleType handleType) const
 {
 	Q_UNUSED(handleType);
 	return QList<QVideoFrame::PixelFormat>()
@@ -49,7 +47,24 @@ QList<QVideoFrame::PixelFormat> VR_FrameGrabber2::supportedPixelFormats(QAbstrac
 		<< QVideoFrame::Format_AdobeDng;
 }
 
-bool VR_FrameGrabber2::present(const QVideoFrame & frame)
+bool VR_CameraFrameGrabber::present(QVideoFrame const & frame)
 {
+	if (frame.isValid()) {
+		QVideoFrame cloneFrame(frame);
+		cloneFrame.map(QAbstractVideoBuffer::ReadOnly);
+		QImage image(cloneFrame.bits(),
+			cloneFrame.width(),
+			cloneFrame.height(),
+			QVideoFrame::imageFormatFromPixelFormat(cloneFrame.pixelFormat()));
+		cloneFrame.unmap();
+
+		// Image format standardization
+		if (image.format() != QImage::Format_ARGB32) {
+			image = image.convertToFormat(QImage::Format_ARGB32);
+		}
+
+		emit frameAvailable(image);
+		return true;
+	}
 	return false;
 }

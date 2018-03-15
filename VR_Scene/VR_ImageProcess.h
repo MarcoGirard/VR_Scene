@@ -1,10 +1,11 @@
 #pragma once
 
 #include <qpixmap.h>
-class VR_ImageProcess
+
+class VR_ImageProcess : public QObject
 {
 public:
-	VR_ImageProcess();
+	VR_ImageProcess(QObject * parent);
 	~VR_ImageProcess();
 
 	virtual void process(QImage imgIn, QImage imgOut) = 0;

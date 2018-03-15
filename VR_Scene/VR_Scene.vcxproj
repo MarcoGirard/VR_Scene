@@ -119,8 +119,9 @@
     <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VR_calibrationWidget.cpp" />
+    <ClCompile Include="VR_CameraFrameGrabber.cpp" />
     <ClCompile Include="VR_ColorCalibrator.cpp" />
-    <ClCompile Include="VR_FrameGrabber2.cpp" />
+    <ClCompile Include="VR_FrameGrabberProcess.cpp" />
     <ClCompile Include="VR_ImageProcess.cpp" />
     <ClCompile Include="VR_Scene.cpp" />
   </ItemGroup>
@@ -144,7 +145,8 @@
     <QtMoc Include="VR_calibrationWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VR_FrameGrabber2.h" />
+    <QtMoc Include="VR_FrameGrabberProcess.h" />
+    <QtMoc Include="VR_CameraFrameGrabber.h" />
     <ClInclude Include="VR_ImageProcess.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
