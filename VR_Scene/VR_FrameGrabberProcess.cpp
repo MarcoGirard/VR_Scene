@@ -10,7 +10,7 @@ VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 	cam->setViewfinder(frameGrabber);
 	cam->start();
 
-	connect(frameGrabber, VR_CameraFrameGrabber::frameAvailable, this, VR_FrameGrabberProcess::frameReceived);
+	connect(frameGrabber, &VR_CameraFrameGrabber::frameAvailable, this, &VR_FrameGrabberProcess::frameReceived);
 }
 
 QPixmap VR_FrameGrabberProcess::getCurrentFrame()

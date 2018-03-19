@@ -2,7 +2,13 @@
 #define VR_IMAGEPROCESS_H
 
 #include <qpixmap.h>
+
+<<<<<<< HEAD
+
+class VR_ImageProcess
+=======
 class VR_ImageProcess : public QObject
+>>>>>>> frameGrabber
 {
 	
 public:
