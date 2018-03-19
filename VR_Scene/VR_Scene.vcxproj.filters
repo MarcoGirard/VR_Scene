@@ -57,6 +57,9 @@
     <ClCompile Include="VR_CameraFrameGrabber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VR_BlurProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -93,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VR_ImageProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VR_BlurProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

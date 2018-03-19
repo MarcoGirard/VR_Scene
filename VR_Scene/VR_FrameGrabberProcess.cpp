@@ -1,7 +1,5 @@
 #include "VR_FrameGrabberProcess.h"
 
-
-
 VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 	VR_ImageProcess(parent),
 	cam{new QCamera()},
@@ -25,6 +23,10 @@ QPixmap VR_FrameGrabberProcess::getPixmap()
 
 void VR_FrameGrabberProcess::frameReceived(QImage frame)
 {
+	QTransform transform;
+	transform.rotate(180);
+
+	frame = frame.transformed(transform);
 	currentFrame = frame;
 	process(frame, frame);
 }
