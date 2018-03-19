@@ -20,6 +20,9 @@ private:
 public:
 	VR_ColorCalibrator(QWidget *parent);
 	~VR_ColorCalibrator();
+
+private slots:
+	void receiveFrame(QImage frame);
 };
 
 #endif //VR_COLORCALIBRATION_H

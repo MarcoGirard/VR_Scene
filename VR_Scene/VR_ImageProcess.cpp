@@ -2,8 +2,10 @@
 
 
 
-VR_ImageProcess::VR_ImageProcess()
+VR_ImageProcess::VR_ImageProcess(QObject * parent) :
+	QObject(parent)
 {
+
 }
 
 

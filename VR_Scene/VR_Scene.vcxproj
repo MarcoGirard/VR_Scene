@@ -40,8 +40,7 @@
       <OutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateDebugInformation>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5OpenGL.lib;opengl32.lib;glu32.lib;Qt5OpenGLExtensions.lib;Qt5Widgets.lib;Qt5Multimedia.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <InputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath)</InputFile>
@@ -98,9 +97,7 @@
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5OpenGLExtensionsd.lib;Qt5Widgetsd.lib;Qt5Multimediad.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
@@ -122,7 +119,9 @@
     <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VR_calibrationWidget.cpp" />
+    <ClCompile Include="VR_CameraFrameGrabber.cpp" />
     <ClCompile Include="VR_ColorCalibrator.cpp" />
+    <ClCompile Include="VR_FrameGrabberProcess.cpp" />
     <ClCompile Include="VR_ImageProcess.cpp" />
     <ClCompile Include="VR_Scene.cpp" />
   </ItemGroup>
@@ -146,6 +145,8 @@
     <QtMoc Include="VR_calibrationWidget.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="VR_FrameGrabberProcess.h" />
+    <QtMoc Include="VR_CameraFrameGrabber.h" />
     <ClInclude Include="VR_ImageProcess.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
