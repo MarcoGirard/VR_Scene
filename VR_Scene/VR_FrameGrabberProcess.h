@@ -16,11 +16,15 @@ private:
 	QImage currentFrame;
 public:
 	VR_FrameGrabberProcess(QObject * parent);
-	QPixmap getCurrentFrame();
+	
+	// Hérité via VR_ImageProcess
+	virtual void process(QImage imgIn, QImage imgOut) override;
+	virtual QPixmap getPixmap() override;
 
 signals:
 	void frameAvailable(QImage frame);
 private slots:
 	void frameReceived(QImage frame);
+
 };
 

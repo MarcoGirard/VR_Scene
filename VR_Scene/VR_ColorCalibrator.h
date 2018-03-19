@@ -5,6 +5,8 @@
 #include "VR_calibrationWidget.h"
 #include <qboxlayout.h>
 #include <qlabel.h>
+#include "VR_ImageProcess.h"
+#include "VR_FrameGrabberProcess.h"
 
 class VR_ColorCalibrator : public QDialog
 {
@@ -14,12 +16,13 @@ private:
 	QTabWidget * videoTabs;
 	QHBoxLayout * mainLayout;
 	QWidget * mainWidget;
-	QLabel * labelTest;
+	QLabel * videoLabel;
+	VR_FrameGrabberProcess * getFrameProcess;
 
 public:
 	VR_ColorCalibrator(QWidget *parent);
 	~VR_ColorCalibrator();
 
-private slots:
+public slots:
 	void receiveFrame(QImage frame);
 };

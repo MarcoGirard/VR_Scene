@@ -5,13 +5,16 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	mainWidget{new QWidget()},
 	mainLayout{new QHBoxLayout()},
 	videoTabs{new QTabWidget()},
-	labelTest{new QLabel("test")}
+	videoLabel{new QLabel()},
+	getFrameProcess{new VR_FrameGrabberProcess(this)}
 {
-	videoTabs->addTab(new QLabel("lol"), "raw");
+	videoTabs->addTab(videoLabel, "raw");
 	videoTabs->addTab(new QLabel("lolololo"), "blur");
 	videoTabs->addTab(new QLabel("lol"), "treshold");
 	mainLayout->addWidget(videoTabs);
 	setLayout(mainLayout);
+
+	connect(getFrameProcess, &VR_FrameGrabberProcess::frameAvailable, this, &VR_ColorCalibrator::receiveFrame);
 }
 
 VR_ColorCalibrator::~VR_ColorCalibrator()
@@ -20,5 +23,5 @@ VR_ColorCalibrator::~VR_ColorCalibrator()
 
 void VR_ColorCalibrator::receiveFrame(QImage frame)
 {
-
+	videoLabel->setPixmap(getFrameProcess->getPixmap());
 }

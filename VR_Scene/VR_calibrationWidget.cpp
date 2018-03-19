@@ -3,9 +3,10 @@
 
 VR_calibrationWidget::VR_calibrationWidget()
 	: videoTabs{new QTabWidget()},
-	mainLayout{new QHBoxLayout()}
+	mainLayout{new QHBoxLayout()},
+	videoLabel{new QLabel}
 {
-	videoTabs->addTab(new QLabel("lol"), "raw");
+	videoTabs->addTab(videoLabel, "raw");
 	videoTabs->addTab(new QLabel("lolololo"), "blur");
 	videoTabs->addTab(new QLabel("lol"), "treshold");
 	mainLayout->addWidget(videoTabs);
@@ -16,4 +17,9 @@ VR_calibrationWidget::VR_calibrationWidget()
 
 VR_calibrationWidget::~VR_calibrationWidget()
 {
+}
+
+void VR_calibrationWidget::setVideoLabel(QPixmap frame)
+{
+	videoLabel->setPixmap(frame);
 }
