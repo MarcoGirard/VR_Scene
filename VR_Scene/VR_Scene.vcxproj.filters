@@ -60,6 +60,12 @@
     <ClCompile Include="VR_BlurProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VR_ImageProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VR_thresholdProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -83,6 +89,9 @@
     <QtMoc Include="VR_CameraFrameGrabber.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="VR_ImageProcessor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="VR_Scene.ui">
@@ -99,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VR_BlurProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VR_thresholdProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

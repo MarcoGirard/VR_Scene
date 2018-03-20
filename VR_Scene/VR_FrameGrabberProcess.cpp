@@ -11,9 +11,9 @@ VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 	connect(frameGrabber, &VR_CameraFrameGrabber::frameAvailable, this, &VR_FrameGrabberProcess::frameReceived);
 }
 
-void VR_FrameGrabberProcess::process(QImage imgIn, QImage imgOut)
+void VR_FrameGrabberProcess::process(QImage &imgIn, QImage &imgOut)
 {
-	emit frameAvailable(imgOut);
+	imgOut = currentFrame;
 }
 
 QPixmap VR_FrameGrabberProcess::getPixmap()
@@ -28,7 +28,7 @@ void VR_FrameGrabberProcess::frameReceived(QImage frame)
 
 	frame = frame.transformed(transform);
 	currentFrame = frame;
-	process(frame, frame);
+	emit startProcess();
 }
 
 

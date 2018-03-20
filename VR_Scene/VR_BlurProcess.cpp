@@ -1,19 +1,20 @@
-#include "VR_BlueProcess.h"
 #include "VR_BlurProcess.h"
 
 
 
-VR_BlueProcess::VR_BlurProcess()
+VR_BlurProcess::VR_BlurProcess(QObject * parent) :
+	VR_ImageProcess(parent)
 {
 }
 
 
-VR_BlueProcess::~VR_BlurProcess()
+VR_BlurProcess::~VR_BlurProcess()
 {
 }
 
-void VR_BlurProcess::process(QImage imgIn, QImage imgOut)
+void VR_BlurProcess::process(QImage &imgIn, QImage &imgOut)
 {
+	imgOut = imgIn;
 }
 
 QPixmap VR_BlurProcess::getPixmap()
