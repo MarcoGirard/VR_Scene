@@ -66,6 +66,9 @@
     <ClCompile Include="VR_thresholdProcess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QLowHighScrollBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="VR_ImageProcessor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QLowHighScrollBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

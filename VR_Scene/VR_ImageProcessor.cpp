@@ -16,15 +16,24 @@ VR_ImageProcessor::~VR_ImageProcessor()
 {
 }
 
-QPixmap VR_ImageProcessor::getPixmap()
+QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageLabel imgLabel)
 {
-	return QPixmap::fromImage(finalImage);
+	switch (imgLabel) {
+	case VR_ImageProcessor::ProcessedImageLabel::RAW : return QPixmap::fromImage(rawImage);
+		break;
+	case VR_ImageProcessor::ProcessedImageLabel::BLURRED : return QPixmap::fromImage(blurredImage);
+		break;
+	case VR_ImageProcessor::ProcessedImageLabel::THRESHOLDED : return QPixmap::fromImage(thresholdedImage);
+		break;
+	case VR_ImageProcessor::ProcessedImageLabel::FINAL : return QPixmap::fromImage(finalImage);
+		break;
+	}
 }
 
 void VR_ImageProcessor::process()
 {
 	frameGrabber->process(rawImage, rawImage);
 	blurProcess->process(rawImage, blurredImage);
-	thresholdProcess->process(blurredImage, finalImage);
-	emit processDone(QPixmap::fromImage(finalImage));
+	thresholdProcess->process(blurredImage, thresholdedImage);
+	emit processDone();
 }

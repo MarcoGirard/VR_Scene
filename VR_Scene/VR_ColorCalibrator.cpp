@@ -5,23 +5,79 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	mainWidget{new QWidget()},
 	mainLayout{new QHBoxLayout()},
 	videoTabs{new QTabWidget()},
-	videoLabel{new QLabel()},
-	imageProcessor{ new VR_ImageProcessor(parent)}
+	blurWidget{ new QWidget()},
+	thresholdWidget{ new QWidget()},
+	rawVideoLabel{ new QLabel() },
+	blurVideoLabel{ new QLabel() },
+	threshVideoLabel{new QLabel()},
+	imageProcessor{ new VR_ImageProcessor(parent)},
+	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
+	saturationScrollBar{ new QLowHighScrollBar("Saturation",parent) },
+	valueScrollBar{ new QLowHighScrollBar("Value",parent)},
+	thresholdWidgetLayout{ new QVBoxLayout() },
+	blurWidgetLayout{ new QVBoxLayout()},
+	currentFrameType{VR_ImageProcessor::ProcessedImageLabel::RAW},
+	blurWidgdetLabel{new QLabel("Blur")},
+	blurScrollBar{new QScrollBar(Qt::Horizontal,parent)}
 {
-	videoTabs->addTab(videoLabel, "raw");
-	videoTabs->addTab(new QLabel("lolololo"), "blur");
-	videoTabs->addTab(new QLabel("lol"), "treshold");
+	videoTabs->addTab(rawVideoLabel, "raw");
+	videoTabs->addTab(blurVideoLabel, "blur");
+	videoTabs->addTab(threshVideoLabel, "threshold");
+
+	/* Blur widget setup*/
+	blurWidget->setLayout(blurWidgetLayout);
+	blurWidgetLayout->addWidget(blurWidgdetLabel);
+	blurWidgetLayout->addWidget(blurScrollBar);
+	blurWidget->hide();
+
+
+	/* Threshold widget setup*/
+	hueScrollBar->setRange(0, 180);
+	saturationScrollBar->setRange(0, 255);
+	valueScrollBar->setRange(0, 255);
+	thresholdWidget->setLayout(thresholdWidgetLayout);
+	thresholdWidgetLayout->addWidget(hueScrollBar);
+	thresholdWidgetLayout->addWidget(saturationScrollBar);
+	thresholdWidgetLayout->addWidget(valueScrollBar);
+	thresholdWidget->hide();
+
 	mainLayout->addWidget(videoTabs);
+	mainLayout->addWidget(blurWidget);
+	mainLayout->addWidget(thresholdWidget);
 	setLayout(mainLayout);
 
 	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
+	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 }
 
 VR_ColorCalibrator::~VR_ColorCalibrator()
 {
 }
 
-void VR_ColorCalibrator::receiveFrame(QPixmap frame)
+void VR_ColorCalibrator::tabChanged()
 {
-	videoLabel->setPixmap(frame);
+	switch (videoTabs->currentIndex()) {
+	case 0: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::RAW;
+		thresholdWidget->hide();
+		blurWidget->hide();
+		break;
+	case 1: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::BLURRED;
+		thresholdWidget->hide();
+		blurWidget->show();
+		break;
+	case 2: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::THRESHOLDED;
+		thresholdWidget->show();
+		blurWidget->hide();
+		break;
+	}
+
+
+}
+
+void VR_ColorCalibrator::receiveFrame()
+{
+	rawVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
+	blurVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
+	threshVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
+
 }

@@ -8,6 +8,8 @@
 #include "VR_ImageProcess.h"
 #include "VR_FrameGrabberProcess.h"
 #include "VR_ImageProcessor.h"
+#include "QLowHighScrollBar.h"
+#include <QScrollBar>
 
 class VR_ColorCalibrator : public QDialog
 {
@@ -16,9 +18,16 @@ class VR_ColorCalibrator : public QDialog
 private:
 	QTabWidget * videoTabs;
 	QHBoxLayout * mainLayout;
-	QWidget * mainWidget;
-	QLabel * videoLabel;
+	QVBoxLayout * thresholdWidgetLayout, * blurWidgetLayout;
+	QWidget * mainWidget, * blurWidget, * thresholdWidget;
+	QLabel * rawVideoLabel, * blurVideoLabel, * threshVideoLabel, * blurWidgdetLabel;
 	VR_ImageProcessor * imageProcessor;
+	QLowHighScrollBar * hueScrollBar;
+	QLowHighScrollBar * saturationScrollBar;
+	QLowHighScrollBar * valueScrollBar;
+	QScrollBar * blurScrollBar;
+	
+	VR_ImageProcessor::ProcessedImageLabel currentFrameType;
 
 
 public:
@@ -26,5 +35,6 @@ public:
 	~VR_ColorCalibrator();
 
 public slots:
-	void receiveFrame(QPixmap frame);
+	void receiveFrame();
+	void tabChanged();
 };
