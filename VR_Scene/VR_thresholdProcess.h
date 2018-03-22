@@ -14,6 +14,8 @@ public:
 	virtual void process(QImage & imgIn, QImage & imgOut) override;
 	virtual QPixmap getPixmap() override;
 	void rgbToHsv(const uchar &r, const uchar &g, const uchar &b, uchar &h, uchar &s, uchar &v);
+	
+public slots:
 	void updateThresholdValues(VR_ThresholdValues newValues);
 
 private:

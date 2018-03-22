@@ -48,10 +48,21 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 
 	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
+
+	connect(hueScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
+	connect(saturationScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
+	connect(valueScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
+
+	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
 }
 
 VR_ColorCalibrator::~VR_ColorCalibrator()
 {
+}
+
+VR_ThresholdValues VR_ColorCalibrator::thresholdValues()
+{
+	return currentThresholdValues;
 }
 
 void VR_ColorCalibrator::tabChanged()
@@ -72,6 +83,17 @@ void VR_ColorCalibrator::tabChanged()
 	}
 
 
+}
+
+void VR_ColorCalibrator::thresholdValueChanged(int lowVal, int highVal)
+{
+	currentThresholdValues.minHue = hueScrollBar->lowValue();
+	currentThresholdValues.maxHue = hueScrollBar->highValue();
+	currentThresholdValues.minSaturation = saturationScrollBar->lowValue();
+	currentThresholdValues.maxSaturation = saturationScrollBar->highValue();
+	currentThresholdValues.minValue = valueScrollBar->lowValue();
+	currentThresholdValues.maxValue = valueScrollBar->highValue();
+	emit newThresholdValues(currentThresholdValues);
 }
 
 void VR_ColorCalibrator::receiveFrame()

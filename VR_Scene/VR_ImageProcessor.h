@@ -22,13 +22,16 @@ public:
 	VR_ImageProcessor(QObject * parent);
 	~VR_ImageProcessor();
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageLabel imgLabel);
+	
 
 
 public slots:
 	void process();
+	void updateThresholdValues(VR_ThresholdValues newValues);
 
 signals:
 	void processDone();
+	void newThresholdValues(VR_ThresholdValues newValues);
 	
 };
 

@@ -26,20 +26,19 @@ void VR_thresholdProcess::process(QImage & imgIn, QImage & imgOut)
 	int currentPixel;
 	uchar r, g, b, h, s, v;
 
+	uchar hMin = thresholdValue.minHue;
+	uchar hMax = thresholdValue.maxHue;
+	uchar sMin = thresholdValue.minSaturation;
+	uchar sMax = thresholdValue.maxSaturation;
+	uchar vMin = thresholdValue.minValue;
+	uchar vMax = thresholdValue.maxValue;
 
-	//uchar hMin = thresholdValue.minHue;
-	//uchar hMax = thresholdValue.maxHue;
-	//uchar sMin = thresholdValue.minSaturation;
-	//uchar sMax = thresholdValue.maxSaturation;
-	//uchar vMin = thresholdValue.minValue;
-	//uchar vMax = thresholdValue.maxValue;
-
-	uchar hMin = 100;
+	/*uchar hMin = 100;
 	uchar hMax = 130;
 	uchar sMin = 100;
 	uchar sMax = 120;
 	uchar vMin = 50;
-	uchar vMax = 100;
+	uchar vMax = 100;*/
 	
 	while (outCur < outEnd) {
 		currentPixel = *inCur;

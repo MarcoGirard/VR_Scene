@@ -9,6 +9,7 @@ VR_ImageProcessor::VR_ImageProcessor(QObject * parent) :
 	thresholdProcess{new VR_thresholdProcess(parent)}
 {
 	connect(frameGrabber, &VR_FrameGrabberProcess::startProcess, this, &VR_ImageProcessor::process);
+	connect(this, &VR_ImageProcessor::newThresholdValues, thresholdProcess, &VR_thresholdProcess::updateThresholdValues);
 }
 
 
@@ -28,6 +29,11 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageLabel imgL
 	case VR_ImageProcessor::ProcessedImageLabel::FINAL : return QPixmap::fromImage(finalImage);
 		break;
 	}
+}
+
+void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
+{
+	emit newThresholdValues(newValues);
 }
 
 void VR_ImageProcessor::process()
