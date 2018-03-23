@@ -35,6 +35,7 @@ private:
 
 signals:
 	void actionTriggered(int lowValue, int highValue);
+	void valueUpdated();
 
 private slots:
 	void actionLow();

@@ -21,7 +21,7 @@ private:
 	QHBoxLayout * mainLayout;
 	QVBoxLayout * thresholdWidgetLayout, * blurWidgetLayout;
 	QWidget * mainWidget, * blurWidget, * thresholdWidget;
-	QLabel * rawVideoLabel, * blurVideoLabel, * threshVideoLabel, * blurWidgdetLabel;
+	QLabel * rawVideoLabel, * blurVideoLabel, * threshVideoLabel, * blurWidgdetLabel, * activeVideoLabel;
 	VR_ImageProcessor * imageProcessor;
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;
@@ -29,7 +29,7 @@ private:
 	QScrollBar * blurScrollBar;
 	VR_ThresholdValues currentThresholdValues;
 	
-	VR_ImageProcessor::ProcessedImageLabel currentFrameType;
+	VR_ImageProcessor::ProcessedImageType currentFrameType;
 
 
 public:
@@ -42,5 +42,5 @@ signals:
 public slots:
 	void receiveFrame();
 	void tabChanged();
-	void thresholdValueChanged(int lowVal, int highVal);
+	void thresholdValueChanged();
 };

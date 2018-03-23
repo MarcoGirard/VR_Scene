@@ -1,19 +1,18 @@
-#include "VR_thresholdProcess.h"
+#include "VR_ThresholdProcess.h"
 
 
 
-VR_thresholdProcess::VR_thresholdProcess(QObject * parent) :
+VR_ThresholdProcess::VR_ThresholdProcess(QObject * parent) :
 	VR_ImageProcess(parent)
 {
-
 }
 
 
-VR_thresholdProcess::~VR_thresholdProcess()
+VR_ThresholdProcess::~VR_ThresholdProcess()
 {
 }
 
-void VR_thresholdProcess::process(QImage & imgIn, QImage & imgOut)
+void VR_ThresholdProcess::process(QImage & imgIn, QImage & imgOut)
 {
 	/* Cette fonction est pratiquement une copie des fonctions de segmentation
 		dans QuickPgrDemo...
@@ -32,13 +31,6 @@ void VR_thresholdProcess::process(QImage & imgIn, QImage & imgOut)
 	uchar sMax = thresholdValue.maxSaturation;
 	uchar vMin = thresholdValue.minValue;
 	uchar vMax = thresholdValue.maxValue;
-
-	/*uchar hMin = 100;
-	uchar hMax = 130;
-	uchar sMin = 100;
-	uchar sMax = 120;
-	uchar vMin = 50;
-	uchar vMax = 100;*/
 	
 	while (outCur < outEnd) {
 		currentPixel = *inCur;
@@ -52,7 +44,7 @@ void VR_thresholdProcess::process(QImage & imgIn, QImage & imgOut)
 		if (h>hMin && h<hMax && s>sMin && s<sMax && v>vMin && v<vMax) {
 			*outCur = 0xFFFFFFFF;
 		} else {
-			*outCur = 0;
+			*outCur = 0xFF000000;
 		}
 		
 		++outCur;
@@ -60,14 +52,15 @@ void VR_thresholdProcess::process(QImage & imgIn, QImage & imgOut)
 	}
 }
 
-QPixmap VR_thresholdProcess::getPixmap()
+QPixmap VR_ThresholdProcess::getPixmap()
 {
 	return QPixmap();
 }
 
-void VR_thresholdProcess::rgbToHsv(const uchar & r, const uchar & g, const uchar & b, uchar & h, uchar & s, uchar & v)
+void VR_ThresholdProcess::rgbToHsv(const uchar & r, const uchar & g, const uchar & b, uchar & h, uchar & s, uchar & v)
 {
 	// copié de rgb2hsv dans QuickPgrDemo -> colorSpaceTools
+
 	// rgb from 0 to 255
 	// hsv results from 0 to 255
 	double dr = r / 255.0;
@@ -118,14 +111,9 @@ void VR_thresholdProcess::rgbToHsv(const uchar & r, const uchar & g, const uchar
 
 }
 
-void VR_thresholdProcess::updateThresholdValues(VR_ThresholdValues newValues)
+void VR_ThresholdProcess::updateThresholdValues(VR_ThresholdValues newValues)
 {
-	thresholdValue.minHue = newValues.minHue;
-	thresholdValue.maxHue = newValues.maxHue;
-	thresholdValue.minSaturation = newValues.minSaturation;
-	thresholdValue.maxSaturation = newValues.maxSaturation;
-	thresholdValue.minValue = newValues.minValue;
-	thresholdValue.maxValue = newValues.maxValue;
+	thresholdValue = newValues;
 }
 
 

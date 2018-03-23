@@ -4,11 +4,11 @@
 #include "VR_ThresholdValues.h"
 
 
-class VR_thresholdProcess : public VR_ImageProcess
+class VR_ThresholdProcess : public VR_ImageProcess
 {
 public:
-	VR_thresholdProcess(QObject * parent);
-	~VR_thresholdProcess();
+	VR_ThresholdProcess(QObject * parent);
+	~VR_ThresholdProcess();
 
 	// Hérité via VR_ImageProcess
 	virtual void process(QImage & imgIn, QImage & imgOut) override;

@@ -96,7 +96,7 @@ void QLowHighScrollBar::updateText()
 void QLowHighScrollBar::action()
 {
 	updateText();
-	emit actionTriggered(lowScrollBar_->value(), highScrollBar_->value());
+	emit valueUpdated();
 }
 void QLowHighScrollBar::reset()
 {

@@ -9,20 +9,23 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	thresholdWidget{ new QWidget()},
 	rawVideoLabel{ new QLabel() },
 	blurVideoLabel{ new QLabel() },
-	threshVideoLabel{new QLabel()},
+	threshVideoLabel{ new QLabel() },
+	activeVideoLabel{new QLabel()},
 	imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
 	saturationScrollBar{ new QLowHighScrollBar("Saturation",parent) },
 	valueScrollBar{ new QLowHighScrollBar("Value",parent)},
 	thresholdWidgetLayout{ new QVBoxLayout() },
 	blurWidgetLayout{ new QVBoxLayout()},
-	currentFrameType{VR_ImageProcessor::ProcessedImageLabel::RAW},
+	currentFrameType{VR_ImageProcessor::ProcessedImageType::RAW},
 	blurWidgdetLabel{new QLabel("Blur")},
 	blurScrollBar{new QScrollBar(Qt::Horizontal,parent)}
 {
+	/* Video tabs setup */
 	videoTabs->addTab(rawVideoLabel, "raw");
 	videoTabs->addTab(blurVideoLabel, "blur");
 	videoTabs->addTab(threshVideoLabel, "threshold");
+	activeVideoLabel = rawVideoLabel; // start with raw cam input as first display
 
 	/* Blur widget setup*/
 	blurWidget->setLayout(blurWidgetLayout);
@@ -30,9 +33,8 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurWidgetLayout->addWidget(blurScrollBar);
 	blurWidget->hide();
 
-
 	/* Threshold widget setup*/
-	hueScrollBar->setRange(0, 180);
+	hueScrollBar->setRange(0, 255);
 	saturationScrollBar->setRange(0, 255);
 	valueScrollBar->setRange(0, 255);
 	thresholdWidget->setLayout(thresholdWidgetLayout);
@@ -49,11 +51,13 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 
-	connect(hueScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
-	connect(saturationScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
-	connect(valueScrollBar, &QLowHighScrollBar::actionTriggered, this, &VR_ColorCalibrator::thresholdValueChanged);
+	connect(hueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
+	connect(saturationScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
+	connect(valueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 
 	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
+	
+	thresholdValueChanged();
 }
 
 VR_ColorCalibrator::~VR_ColorCalibrator()
@@ -68,24 +72,27 @@ VR_ThresholdValues VR_ColorCalibrator::thresholdValues()
 void VR_ColorCalibrator::tabChanged()
 {
 	switch (videoTabs->currentIndex()) {
-	case 0: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::RAW;
+	case 0: currentFrameType = VR_ImageProcessor::ProcessedImageType::RAW;
 		thresholdWidget->hide();
 		blurWidget->hide();
+		activeVideoLabel = rawVideoLabel;
 		break;
-	case 1: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::BLURRED;
+	case 1: currentFrameType = VR_ImageProcessor::ProcessedImageType::BLURRED;
 		thresholdWidget->hide();
 		blurWidget->show();
+		activeVideoLabel = blurVideoLabel;
 		break;
-	case 2: currentFrameType = VR_ImageProcessor::ProcessedImageLabel::THRESHOLDED;
+	case 2: currentFrameType = VR_ImageProcessor::ProcessedImageType::THRESHOLDED;
 		thresholdWidget->show();
 		blurWidget->hide();
+		activeVideoLabel = threshVideoLabel;
 		break;
 	}
-
-
 }
 
-void VR_ColorCalibrator::thresholdValueChanged(int lowVal, int highVal)
+// QUESTION POUR JC : Est-ce plus clean de faire tout le temps les 6 appels? 
+//					  ou je fais une slot pour chaque?
+void VR_ColorCalibrator::thresholdValueChanged()
 {
 	currentThresholdValues.minHue = hueScrollBar->lowValue();
 	currentThresholdValues.maxHue = hueScrollBar->highValue();
@@ -98,8 +105,5 @@ void VR_ColorCalibrator::thresholdValueChanged(int lowVal, int highVal)
 
 void VR_ColorCalibrator::receiveFrame()
 {
-	rawVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
-	blurVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
-	threshVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
-
+	activeVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
 }
