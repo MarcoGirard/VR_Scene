@@ -31,9 +31,11 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurSpinbox->setRange(1, 13);
 	blurSpinbox->setSingleStep(2);
 	blurSpinbox->setValue(3);
+	blurSpinbox->setToolTip(QString("min: 1 (pas de blur)\nmax: 13\nAttention, ne pas changer\nla valeur trop rapidement!"));
 	blurWidget->setLayout(blurWidgetLayout);
 	blurWidgetLayout->addWidget(blurWidgdetLabel);
 	blurWidgetLayout->addWidget(blurSpinbox);
+	blurWidgetLayout->addStretch();
 	blurWidget->hide();
 
 	/* Threshold widget setup*/
@@ -44,6 +46,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	thresholdWidgetLayout->addWidget(hueScrollBar);
 	thresholdWidgetLayout->addWidget(saturationScrollBar);
 	thresholdWidgetLayout->addWidget(valueScrollBar);
+	thresholdWidgetLayout->addStretch();
 	thresholdWidget->hide();
 
 	mainLayout->addWidget(videoTabs);
