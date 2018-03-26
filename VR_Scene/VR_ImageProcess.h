@@ -1,6 +1,7 @@
 #pragma once
 
 #include <qpixmap.h>
+#include <opencv2/opencv.hpp>
 
 class VR_ImageProcess : public QObject
 {
