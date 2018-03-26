@@ -12,6 +12,13 @@ public:
 	virtual void process(QImage &imgIn, QImage &imgOut) override;
 	virtual QPixmap getPixmap() override;
 
+private:
+	int kernelSize{ 3 };
+
+public slots:
+	void updateKernelSize(int newKernelSize);
+
+
 
 };
 

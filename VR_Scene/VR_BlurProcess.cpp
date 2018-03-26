@@ -22,27 +22,25 @@ void VR_BlurProcess::process(QImage &imgIn, QImage &imgOut)
 	int imgWidth{ imgIn.width() }, imgHeight{ imgIn.height() };
 	uchar r, g, b;
 
-	const uchar kernelSize{ 5 };
-	const int horizontalOffset{ std::floor(kernelSize / 2) };
-	const int verticalOffset{ imgWidth * horizontalOffset };
+	const int horizontalOffset{ static_cast<int>(std::floor(kernelSize / 2)) };
+	const int verticalOffset{ static_cast<int>(imgWidth * horizontalOffset) };
 	
 	int * curOut = reinterpret_cast<int*>(imgOut.bits());
 	curOut += imgWidth + 1; // Placer le pointeur du pixel de sortie 
 	
 	/* LOOP THROUGH IMGS */
-	for (int i{ 1 }; i < imgHeight - 1; ++i) {
+	for (int i{ horizontalOffset }; i < imgHeight - horizontalOffset; ++i) {
 		row = reinterpret_cast<int*>(imgIn.scanLine(i));
-		curOut += 2; // on ignore la première et la dernière colonne au changement de ligne
-		for (int j{ 1 }; j < imgWidth - 1; ++j) {
+		curOut += 2 * horizontalOffset; // on ignore la première et la dernière colonne au changement de ligne
+		for (int j{ horizontalOffset }; j < imgWidth - horizontalOffset; ++j) {
 			currentInPixel = &row[j];
 			pixelOut = 0;
 			totalR = totalG = totalB = 0;
 			
 			/* LOOP AROUND PIXEL */
-			
-			for (int l{ -imgWidth }; l <= imgWidth; l += imgWidth){
+			for (int l{ -verticalOffset }; l <= verticalOffset; l += verticalOffset){
 				currentInPixel += l;
-				for (int k{ -1 }; k <= 1; ++k) {
+				for (int k{ -horizontalOffset }; k <= horizontalOffset; k+=horizontalOffset) {
 					currentInPixel += k;
 
 					totalR += (*currentInPixel & 0x00FF0000) >> 16;
@@ -72,4 +70,9 @@ void VR_BlurProcess::process(QImage &imgIn, QImage &imgOut)
 QPixmap VR_BlurProcess::getPixmap()
 {
 	return QPixmap();
+}
+
+void VR_BlurProcess::updateKernelSize(int newKernelSize)
+{
+	kernelSize = newKernelSize;
 }

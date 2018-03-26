@@ -19,7 +19,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurWidgetLayout{ new QVBoxLayout()},
 	currentFrameType{VR_ImageProcessor::ProcessedImageType::RAW},
 	blurWidgdetLabel{new QLabel("Blur")},
-	blurScrollBar{new QScrollBar(Qt::Horizontal,parent)}
+	blurSpinbox{new QSpinBox(parent)}
 {
 	/* Video tabs setup */
 	videoTabs->addTab(rawVideoLabel, "raw");
@@ -28,9 +28,12 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	activeVideoLabel = rawVideoLabel; // start with raw cam input as first display
 
 	/* Blur widget setup*/
+	blurSpinbox->setRange(1, 13);
+	blurSpinbox->setSingleStep(2);
+	blurSpinbox->setValue(3);
 	blurWidget->setLayout(blurWidgetLayout);
 	blurWidgetLayout->addWidget(blurWidgdetLabel);
-	blurWidgetLayout->addWidget(blurScrollBar);
+	blurWidgetLayout->addWidget(blurSpinbox);
 	blurWidget->hide();
 
 	/* Threshold widget setup*/
@@ -56,6 +59,8 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	connect(valueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 
 	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
+	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
+
 	
 	thresholdValueChanged();
 }
@@ -101,6 +106,11 @@ void VR_ColorCalibrator::thresholdValueChanged()
 	currentThresholdValues.minValue = valueScrollBar->lowValue();
 	currentThresholdValues.maxValue = valueScrollBar->highValue();
 	emit newThresholdValues(currentThresholdValues);
+}
+
+void VR_ColorCalibrator::newKernelSize()
+{
+	emit kernelSizeUpdated(blurSpinbox->value());
 }
 
 void VR_ColorCalibrator::receiveFrame()

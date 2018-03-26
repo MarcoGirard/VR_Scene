@@ -11,6 +11,7 @@
 #include "QLowHighScrollBar.h"
 #include <QScrollBar>
 #include "VR_ThresholdValues.h"
+#include <QSpinBox>
 
 class VR_ColorCalibrator : public QDialog
 {
@@ -26,7 +27,7 @@ private:
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;
 	QLowHighScrollBar * valueScrollBar;
-	QScrollBar * blurScrollBar;
+	QSpinBox * blurSpinbox;
 	VR_ThresholdValues currentThresholdValues;
 	
 	VR_ImageProcessor::ProcessedImageType currentFrameType;
@@ -39,8 +40,11 @@ public:
 
 signals:
 	void newThresholdValues(VR_ThresholdValues newValues);
+	void kernelSizeUpdated(int newKernelSize);
+
 public slots:
 	void receiveFrame();
 	void tabChanged();
 	void thresholdValueChanged();
+	void newKernelSize();
 };

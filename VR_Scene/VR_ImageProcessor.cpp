@@ -11,6 +11,7 @@ VR_ImageProcessor::VR_ImageProcessor(QObject * parent) :
 
 	connect(frameGrabber, &VR_FrameGrabberProcess::startProcess, this, &VR_ImageProcessor::process);
 	connect(this, &VR_ImageProcessor::newThresholdValues, thresholdProcess, &VR_ThresholdProcess::updateThresholdValues);
+	connect(this, &VR_ImageProcessor::updateKernelSize, blurProcess, &VR_BlurProcess::updateKernelSize);
 }
 
 
@@ -35,6 +36,11 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType imgLa
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 {
 	emit newThresholdValues(newValues);
+}
+
+void VR_ImageProcessor::kernelSizeUpdated(int newKernelSize)
+{
+	emit updateKernelSize(newKernelSize);
 }
 
 void VR_ImageProcessor::process()

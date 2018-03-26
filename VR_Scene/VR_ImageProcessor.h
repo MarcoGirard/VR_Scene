@@ -28,10 +28,12 @@ public:
 public slots:
 	void process();
 	void updateThresholdValues(VR_ThresholdValues newValues);
+	void kernelSizeUpdated(int newKernelSize);
 
 signals:
 	void processDone();
 	void newThresholdValues(VR_ThresholdValues newValues);
+	void updateKernelSize(int newKernelSize);
 	
 };
 
