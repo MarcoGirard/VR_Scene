@@ -11,9 +11,12 @@ VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 	connect(frameGrabber, &VR_CameraFrameGrabber::frameAvailable, this, &VR_FrameGrabberProcess::frameReceived);
 }
 
-void VR_FrameGrabberProcess::process(QImage &imgIn, QImage &imgOut)
+void VR_FrameGrabberProcess::process(Mat &imgIn, Mat &imgOut)
 {
+	// TO DO 
+	//convertir QImage currentFrame en Mat imgOut;
 	imgOut = currentFrame;
+	// QUESTION POUR JC : Initialisation de mes buffers d'images?
 }
 
 QPixmap VR_FrameGrabberProcess::getPixmap()
