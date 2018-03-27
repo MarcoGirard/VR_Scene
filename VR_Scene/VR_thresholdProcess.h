@@ -12,7 +12,6 @@ public:
 
 	// Hérité via VR_ImageProcess
 	virtual void process(Mat &imgIn, Mat &imgOut) override;
-	virtual QPixmap getPixmap() override;
 	void rgbToHsv(const uchar &r, const uchar &g, const uchar &b, uchar &h, uchar &s, uchar &v);
 	
 public slots:

@@ -14,14 +14,16 @@ VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 void VR_FrameGrabberProcess::process(Mat &imgIn, Mat &imgOut)
 {
 	// TO DO 
-	//convertir QImage currentFrame en Mat imgOut;
-	imgOut = currentFrame;
+	//Tester la conversion
+	imgOut = qimage_to_mat_ref(currentFrame, QImage::Format_ARGB32);
 	// QUESTION POUR JC : Initialisation de mes buffers d'images?
 }
 
-QPixmap VR_FrameGrabberProcess::getPixmap()
+
+// Pris sur http://qtandopencv.blogspot.ca/2013/08/how-to-convert-between-cvmat-and-qimage.html
+Mat VR_FrameGrabberProcess::qimage_to_mat_ref(QImage &img, int format)
 {
-	return QPixmap::fromImage(currentFrame);
+	return cv::Mat(img.height(), img.width(),format, img.bits(), img.bytesPerLine());
 }
 
 void VR_FrameGrabberProcess::frameReceived(QImage frame)

@@ -14,16 +14,18 @@ private:
 	QCamera * cam;
 	VR_CameraFrameGrabber * frameGrabber;
 	QImage currentFrame;
+	Mat qimage_to_mat_ref(QImage &img, int format);
+
 public:
 	VR_FrameGrabberProcess(QObject * parent);
 	
 	// Hérité via VR_ImageProcess
 	virtual void process(Mat &imgIn, Mat &imgOut) override;
-	virtual QPixmap getPixmap() override;
 
 signals:
 	void frameAvailable(QImage frame);
 	void startProcess();
+
 private slots:
 	void frameReceived(QImage frame);
 

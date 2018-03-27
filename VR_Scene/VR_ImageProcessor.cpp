@@ -22,16 +22,23 @@ VR_ImageProcessor::~VR_ImageProcessor()
 QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel)
 {
 	switch (imgLabel) {
-	case VR_ImageProcessor::ProcessedImageType::RAW : return QPixmap::fromImage(rawImage);
+	case VR_ImageProcessor::ProcessedImageType::RAW : return QPixmap::fromImage(mat_to_qimage_ref(rawImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLURRED : return QPixmap::fromImage(blurredImage);
+	case VR_ImageProcessor::ProcessedImageType::BLURRED : return QPixmap::fromImage(mat_to_qimage_ref(blurredImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::THRESHOLDED : return QPixmap::fromImage(thresholdedImage);
+	case VR_ImageProcessor::ProcessedImageType::THRESHOLDED : return QPixmap::fromImage(mat_to_qimage_ref(thresholdedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::FINAL : return QPixmap::fromImage(finalImage);
+	case VR_ImageProcessor::ProcessedImageType::FINAL : return QPixmap::fromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));
 		break;
 	}
 }
+
+QImage VR_ImageProcessor::mat_to_qimage_ref(cv::Mat & mat, QImage::Format format)
+{
+	return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
+}
+
+
 
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 {

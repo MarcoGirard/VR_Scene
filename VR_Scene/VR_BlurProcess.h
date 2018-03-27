@@ -10,7 +10,6 @@ public:
 
 	// Hérité via VR_ImageProcess
 	virtual void process(Mat &imgIn, Mat &imgOut) override;
-	virtual QPixmap getPixmap() override;
 
 private:
 	int kernelSize{ 3 };

@@ -62,14 +62,6 @@ void VR_BlurProcess::process(Mat &imgIn, Mat &imgOut)
 	//	}
 	//}
 
-	
-
-
-}
-
-QPixmap VR_BlurProcess::getPixmap()
-{
-	return QPixmap();
 }
 
 void VR_BlurProcess::updateKernelSize(int newKernelSize)

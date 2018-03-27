@@ -52,11 +52,6 @@ void VR_ThresholdProcess::process(Mat &imgIn, Mat &imgOut)
 	//}
 }
 
-QPixmap VR_ThresholdProcess::getPixmap()
-{
-	return QPixmap();
-}
-
 void VR_ThresholdProcess::rgbToHsv(const uchar & r, const uchar & g, const uchar & b, uchar & h, uchar & s, uchar & v)
 {
 	// copié de rgb2hsv dans QuickPgrDemo -> colorSpaceTools
