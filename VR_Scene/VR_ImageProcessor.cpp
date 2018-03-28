@@ -33,6 +33,7 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType imgLa
 	}
 }
 
+// Pris sur http://qtandopencv.blogspot.ca/2013/08/how-to-convert-between-cvmat-and-qimage.html
 QImage VR_ImageProcessor::mat_to_qimage_ref(cv::Mat & mat, QImage::Format format)
 {
 	return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
@@ -54,6 +55,6 @@ void VR_ImageProcessor::process()
 {
 	frameGrabber->process(rawImage, rawImage);
 	blurProcess->process(rawImage, blurredImage);
-	thresholdProcess->process(blurredImage, thresholdedImage);
+//	thresholdProcess->process(blurredImage, thresholdedImage);
 	emit processDone();
 }

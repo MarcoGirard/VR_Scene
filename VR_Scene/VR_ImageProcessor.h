@@ -20,7 +20,7 @@ private:
 	Mat rawImage, blurredImage, thresholdedImage, finalImage;
 
 public:
-	enum class ProcessedImageType {RAW, BLURRED, THRESHOLDED, FINAL };
+	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, FINAL };
 	VR_ImageProcessor(QObject * parent);
 	~VR_ImageProcessor();
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);

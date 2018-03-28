@@ -20,7 +20,7 @@ public:
 	VR_FrameGrabberProcess(QObject * parent);
 	
 	// Hérité via VR_ImageProcess
-	virtual void process(Mat &imgIn, Mat &imgOut) override;
+	virtual void process(const Mat &imgIn, Mat &imgOut) override;
 
 signals:
 	void frameAvailable(QImage frame);

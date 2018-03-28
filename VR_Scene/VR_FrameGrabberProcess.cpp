@@ -11,7 +11,7 @@ VR_FrameGrabberProcess::VR_FrameGrabberProcess(QObject * parent) :
 	connect(frameGrabber, &VR_CameraFrameGrabber::frameAvailable, this, &VR_FrameGrabberProcess::frameReceived);
 }
 
-void VR_FrameGrabberProcess::process(Mat &imgIn, Mat &imgOut)
+void VR_FrameGrabberProcess::process(const Mat &imgIn, Mat &imgOut)
 {
 	// TO DO 
 	//Tester la conversion

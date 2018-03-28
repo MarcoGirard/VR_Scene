@@ -12,44 +12,44 @@ VR_ThresholdProcess::~VR_ThresholdProcess()
 {
 }
 
-void VR_ThresholdProcess::process(Mat &imgIn, Mat &imgOut)
+void VR_ThresholdProcess::process(const Mat &imgIn, Mat &imgOut)
 {
 	/* Cette fonction est pratiquement une copie des fonctions de segmentation
 		dans QuickPgrDemo...
 	*/
 
 	imgOut = imgIn;
-	//int *inCur = reinterpret_cast<int*>((uchar*)(imgIn.bits()));
-	//int *outCur = reinterpret_cast<int*>((uchar*)(imgOut.bits()));
-	//int *outEnd = outCur + imgIn.width() * imgIn.height();
-	//int currentPixel;
-	//uchar r, g, b, h, s, v;
+	int *inCur = reinterpret_cast<int*>((uchar*)(imgIn.ptr()));
+	int *outCur = reinterpret_cast<int*>((uchar*)(imgOut.ptr()));
+	int *outEnd = outCur + imgIn.rows * imgIn.cols;
+	int currentPixel;
+	uchar r, g, b, h, s, v;
 
-	//uchar hMin = thresholdValue.minHue;
-	//uchar hMax = thresholdValue.maxHue;
-	//uchar sMin = thresholdValue.minSaturation;
-	//uchar sMax = thresholdValue.maxSaturation;
-	//uchar vMin = thresholdValue.minValue;
-	//uchar vMax = thresholdValue.maxValue;
-	//
-	//while (outCur < outEnd) {
-	//	currentPixel = *inCur;
-	//	r = (currentPixel & 0x00FF0000) >> 16;
-	//	g = (currentPixel & 0x0000FF00) >> 8;
-	//	b = (currentPixel & 0x000000FF);
+	uchar hMin = thresholdValue.minHue;
+	uchar hMax = thresholdValue.maxHue;
+	uchar sMin = thresholdValue.minSaturation;
+	uchar sMax = thresholdValue.maxSaturation;
+	uchar vMin = thresholdValue.minValue;
+	uchar vMax = thresholdValue.maxValue;
+	
+	while (outCur < outEnd) {
+		currentPixel = *inCur;
+		r = (currentPixel & 0x00FF0000) >> 16;
+		g = (currentPixel & 0x0000FF00) >> 8;
+		b = (currentPixel & 0x000000FF);
 
-	//	rgbToHsv(r, g, b, h, s, v);
-	//	
-	//	/* test si le pixel respectent les conditions de segmentation */
-	//	if (h>hMin && h<hMax && s>sMin && s<sMax && v>vMin && v<vMax) {
-	//		*outCur = 0xFFFFFFFF;
-	//	} else {
-	//		*outCur = 0xFF000000;
-	//	}
-	//	
-	//	++outCur;
-	//	++inCur;
-	//}
+		rgbToHsv(r, g, b, h, s, v);
+		
+		/* test si le pixel respectent les conditions de segmentation */
+		if (h>hMin && h<hMax && s>sMin && s<sMax && v>vMin && v<vMax) {
+			*outCur = 0xFFFFFFFF;
+		} else {
+			*outCur = 0xFF000000;
+		}
+		
+		++outCur;
+		++inCur;
+	}
 }
 
 void VR_ThresholdProcess::rgbToHsv(const uchar & r, const uchar & g, const uchar & b, uchar & h, uchar & s, uchar & v)

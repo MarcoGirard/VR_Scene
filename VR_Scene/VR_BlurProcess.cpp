@@ -12,55 +12,55 @@ VR_BlurProcess::~VR_BlurProcess()
 {
 }
 
-void VR_BlurProcess::process(Mat &imgIn, Mat &imgOut)
+void VR_BlurProcess::process(const Mat &imgIn, Mat &imgOut)
 {
 	imgOut = imgIn; // QUESTION POUR JC : est-ce que cette opération est couteuse?
 
 
-	//int * row, * currentInPixel, pixelOut;
-	//double totalR{ 0 }, totalG{ 0 }, totalB{ 0 };
-	//int imgWidth{ imgIn.width() }, imgHeight{ imgIn.height() };
-	//uchar r, g, b;
+	int * row, * currentinpixel, pixelout;
+	double totalr{ 0 }, totalg{ 0 }, totalb{ 0 };
+	int imgwidth{ imgIn.cols }, imgheight{ imgIn.rows };
+	uchar r, g, b;
 
-	//const int horizontalOffset{ static_cast<int>(std::floor(kernelSize / 2)) };
-	//const int verticalOffset{ static_cast<int>(imgWidth * horizontalOffset) };
-	//
-	//int * curOut = reinterpret_cast<int*>(imgOut.bits());
-	//curOut += imgWidth + 1; // Placer le pointeur du pixel de sortie 
-	//
-	///* LOOP THROUGH IMGS */
-	//for (int i{ horizontalOffset }; i < imgHeight - horizontalOffset; ++i) {
-	//	row = reinterpret_cast<int*>(imgIn.scanLine(i));
-	//	curOut += 2 * horizontalOffset; // on ignore la première et la dernière colonne au changement de ligne
-	//	for (int j{ horizontalOffset }; j < imgWidth - horizontalOffset; ++j) {
-	//		currentInPixel = &row[j];
-	//		pixelOut = 0;
-	//		totalR = totalG = totalB = 0;
-	//		
-	//		/* LOOP AROUND PIXEL */
-	//		for (int l{ -verticalOffset }; l <= verticalOffset; l += verticalOffset){
-	//			currentInPixel += l;
-	//			for (int k{ -horizontalOffset }; k <= horizontalOffset; k+=horizontalOffset) {
-	//				currentInPixel += k;
+	const int horizontaloffset{ static_cast<int>(std::floor(kernelSize / 2)) };
+	const int verticaloffset{ static_cast<int>(imgwidth * horizontaloffset) };
+	
+	int * curout = reinterpret_cast<int*>(imgOut.ptr());
+	curout += imgwidth + horizontaloffset; // placer le pointeur du pixel de sortie 
+	
+	/* loop through imgs */
+	for (int i{ horizontaloffset }; i < (imgheight - horizontaloffset); ++i) {
+		row = reinterpret_cast<int*>(imgOut.ptr(i));
+		curout += 2 * horizontaloffset; // on ignore les x premières et dernières colonnes au changement de ligne
+		for (int j{ horizontaloffset }; j < (imgwidth - horizontaloffset); ++j) {
+			currentinpixel = &row[j];
+			pixelout = 0;
+			totalr = totalg = totalb = 0;
+			
+			/* loop around pixel */
+			for (int l{ -verticaloffset }; l <= verticaloffset; l += verticaloffset){
+				currentinpixel += l;
+				for (int k{ -horizontaloffset }; k <= horizontaloffset; k+=horizontaloffset) {
+					currentinpixel += k;
 
-	//				totalR += (*currentInPixel & 0x00FF0000) >> 16;
-	//				totalG += (*currentInPixel & 0x0000FF00) >> 8;
-	//				totalB += (*currentInPixel & 0x000000FF);
-	//			}
-	//		}
-	//		/* on recompose le pixel avec nos valeurs rgb */
-	//		pixelOut += (totalR / 9);
-	//		pixelOut <<= 8;
-	//		pixelOut += (totalG / 9);
-	//		pixelOut <<= 8;
-	//		pixelOut += (totalB/ 9);
-	//		pixelOut += 0xFF000000;
-	//		*curOut = pixelOut;
-	//		
-	//		/* Pendant l'itération sur une ligne, on tasse de "un pixel" (32bits) */
-	//		++curOut;
-	//	}
-	//}
+					totalr += (*currentinpixel & 0x00ff0000) >> 16;
+					totalg += (*currentinpixel & 0x0000ff00) >> 8;
+					totalb += (*currentinpixel & 0x000000ff);
+				}
+			}
+			/* on recompose le pixel avec nos valeurs rgb */
+			pixelout += (totalr / 9);
+			pixelout <<= 8;
+			pixelout += (totalg / 9);
+			pixelout <<= 8;
+			pixelout += (totalb/ 9);
+			pixelout += 0xff000000;
+			*curout = pixelout;
+			
+			/* pendant l'itération sur une ligne, on tasse de "un pixel" (32bits) */
+			++curout;
+		}
+	}
 
 }
 

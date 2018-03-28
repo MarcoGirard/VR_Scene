@@ -9,7 +9,7 @@ public:
 	~VR_BlurProcess();
 
 	// Hérité via VR_ImageProcess
-	virtual void process(Mat &imgIn, Mat &imgOut) override;
+	virtual void process(const Mat &imgIn, Mat &imgOut) override;
 
 private:
 	int kernelSize{ 3 };

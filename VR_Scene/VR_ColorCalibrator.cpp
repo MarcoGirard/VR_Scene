@@ -30,7 +30,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	/* Blur widget setup*/
 	blurSpinbox->setRange(1, 13);
 	blurSpinbox->setSingleStep(2);
-	blurSpinbox->setValue(3);
+	blurSpinbox->setValue(5);
 	blurSpinbox->setToolTip(QString("min: 1 (pas de blur)\nmax: 13\nAttention, ne pas changer\nla valeur trop rapidement!"));
 	blurWidget->setLayout(blurWidgetLayout);
 	blurWidgetLayout->addWidget(blurWidgdetLabel);
@@ -63,7 +63,6 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 
 	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
 	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
-
 	
 	thresholdValueChanged();
 }

@@ -11,6 +11,6 @@ public:
 	VR_ImageProcess(QObject * parent);
 	~VR_ImageProcess();
 
-	virtual void process(Mat &imgIn, Mat &imgOut) = 0;
+	virtual void process(const Mat &imgIn, Mat &imgOut) = 0;
 };
 
