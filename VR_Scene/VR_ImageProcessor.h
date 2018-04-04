@@ -25,6 +25,7 @@ public:
 	~VR_ImageProcessor();
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);
 	QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format);
+	void disconnect();
 	
 
 

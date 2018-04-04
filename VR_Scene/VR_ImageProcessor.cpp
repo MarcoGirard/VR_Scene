@@ -39,6 +39,11 @@ QImage VR_ImageProcessor::mat_to_qimage_ref(cv::Mat & mat, QImage::Format format
 	return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
 }
 
+void VR_ImageProcessor::disconnect()
+{
+	frameGrabber->disconnect();
+}
+
 
 
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)

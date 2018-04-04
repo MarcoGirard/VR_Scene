@@ -18,6 +18,7 @@ private:
 
 public:
 	VR_FrameGrabberProcess(QObject * parent);
+	void disconnect();
 	
 	// Hérité via VR_ImageProcess
 	virtual void process(const Mat &imgIn, Mat &imgOut) override;

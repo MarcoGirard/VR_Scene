@@ -1,5 +1,11 @@
 #include "VR_ColorCalibrator.h"
 
+void VR_ColorCalibrator::reject()
+{
+	imageProcessor->disconnect();
+	VR_ColorCalibrator::close();
+}
+
 VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	: QDialog(parent),
 	mainWidget{new QWidget()},

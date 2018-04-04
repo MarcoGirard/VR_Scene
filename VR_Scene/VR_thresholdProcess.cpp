@@ -18,7 +18,7 @@ void VR_ThresholdProcess::process(const Mat &imgIn, Mat &imgOut)
 		dans QuickPgrDemo...
 	*/
 
-	imgOut = imgIn;
+	imgIn.copyTo(imgOut);
 	int *inCur = reinterpret_cast<int*>((uchar*)(imgIn.ptr()));
 	int *outCur = reinterpret_cast<int*>((uchar*)(imgOut.ptr()));
 	int *outEnd = outCur + imgIn.rows * imgIn.cols;

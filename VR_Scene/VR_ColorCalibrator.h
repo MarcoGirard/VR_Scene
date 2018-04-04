@@ -33,10 +33,12 @@ private:
 	VR_ImageProcessor::ProcessedImageType currentFrameType;
 
 
+
 public:
 	VR_ColorCalibrator(QWidget *parent);
 	~VR_ColorCalibrator();
 	VR_ThresholdValues thresholdValues();
+	void reject() override;
 
 signals:
 	void newThresholdValues(VR_ThresholdValues newValues);
