@@ -18,10 +18,7 @@ void VR_FrameGrabberProcess::disconnect()
 
 void VR_FrameGrabberProcess::process(const Mat &imgIn, Mat &imgOut)
 {
-	// TO DO 
-	//Tester la conversion
 	imgOut = qimage_to_mat_ref(currentFrame, QImage::Format_ARGB32);
-	// QUESTION POUR JC : Initialisation de mes buffers d'images?
 }
 
 

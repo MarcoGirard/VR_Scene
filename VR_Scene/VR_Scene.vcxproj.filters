@@ -72,6 +72,9 @@
     <ClCompile Include="VR_ThresholdValues.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="VR_ErodeProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="VR_Scene.h">
@@ -120,6 +123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VR_thresholdProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VR_ErodeProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

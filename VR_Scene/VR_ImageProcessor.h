@@ -5,6 +5,7 @@
 #include "VR_FrameGrabberProcess.h"
 #include "VR_BlurProcess.h"
 #include "VR_ThresholdProcess.h"
+#include "VR_ErodeProcess.h"
 #include <QPixmap>
 #include <string>
 
@@ -17,10 +18,11 @@ private:
 	VR_FrameGrabberProcess * frameGrabber;
 	VR_BlurProcess * blurProcess;
 	VR_ThresholdProcess * thresholdProcess;
-	Mat rawImage, blurredImage, thresholdedImage, finalImage;
+	VR_ErodeProcess * erodeProcess;
+	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage;
 
 public:
-	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, FINAL };
+	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL };
 	VR_ImageProcessor(QObject * parent);
 	~VR_ImageProcessor();
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);

@@ -123,6 +123,7 @@
     <ClCompile Include="VR_calibrationWidget.cpp" />
     <ClCompile Include="VR_CameraFrameGrabber.cpp" />
     <ClCompile Include="VR_ColorCalibrator.cpp" />
+    <ClCompile Include="VR_ErodeProcess.cpp" />
     <ClCompile Include="VR_FrameGrabberProcess.cpp" />
     <ClCompile Include="VR_ImageProcess.cpp" />
     <ClCompile Include="VR_ImageProcessor.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QLowHighScrollBar.h" />
+    <ClInclude Include="VR_ErodeProcess.h" />
     <ClInclude Include="VR_thresholdProcess.h" />
     <QtMoc Include="VR_ImageProcessor.h" />
     <QtMoc Include="VR_FrameGrabberProcess.h" />

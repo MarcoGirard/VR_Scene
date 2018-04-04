@@ -16,6 +16,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	rawVideoLabel{ new QLabel() },
 	blurVideoLabel{ new QLabel() },
 	threshVideoLabel{ new QLabel() },
+	erodedVideoLabel{ new QLabel() },
 	activeVideoLabel{new QLabel()},
 	imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
@@ -31,6 +32,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	videoTabs->addTab(rawVideoLabel, "raw");
 	videoTabs->addTab(blurVideoLabel, "blur");
 	videoTabs->addTab(threshVideoLabel, "threshold");
+	videoTabs->addTab(erodedVideoLabel, "eroded");
 	activeVideoLabel = rawVideoLabel; // start with raw cam input as first display
 
 	/* Blur widget setup*/
@@ -99,6 +101,11 @@ void VR_ColorCalibrator::tabChanged()
 		thresholdWidget->show();
 		blurWidget->hide();
 		activeVideoLabel = threshVideoLabel;
+		break;
+	case 3: currentFrameType = VR_ImageProcessor::ProcessedImageType::ERODED;
+		thresholdWidget->hide();
+		blurWidget->hide();
+		activeVideoLabel = erodedVideoLabel;
 		break;
 	}
 }

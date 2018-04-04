@@ -22,7 +22,12 @@ private:
 	QHBoxLayout * mainLayout;
 	QVBoxLayout * thresholdWidgetLayout, * blurWidgetLayout;
 	QWidget * mainWidget, * blurWidget, * thresholdWidget;
-	QLabel * rawVideoLabel, * blurVideoLabel, * threshVideoLabel, * blurWidgdetLabel, * activeVideoLabel;
+	QLabel * rawVideoLabel,
+		   *blurVideoLabel,
+		   *threshVideoLabel,
+		   *blurWidgdetLabel,
+		   *activeVideoLabel,
+		   *erodedVideoLabel;
 	VR_ImageProcessor * imageProcessor;
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;
