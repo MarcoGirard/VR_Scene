@@ -47,6 +47,16 @@ void VR_ImageProcessor::disconnect()
 	frameGrabber->disconnect();
 }
 
+void VR_ImageProcessor::setProcess(bool process)
+{
+	mProcess = process;
+}
+
+void VR_ImageProcessor::setStaticImg(QImage * img)
+{
+	rawImage = cv::Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine());
+}
+
 
 
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
@@ -61,9 +71,11 @@ void VR_ImageProcessor::kernelSizeUpdated(int newKernelSize)
 
 void VR_ImageProcessor::process()
 {
-	frameGrabber->process(rawImage, rawImage);
-	blurProcess->process(rawImage, blurredImage);
-	thresholdProcess->process(blurredImage, thresholdedImage);
-	erodeProcess->process(thresholdedImage, erodedImage);
-	emit processDone();
+	if (mProcess) {
+		frameGrabber->process(rawImage, rawImage);
+		blurProcess->process(rawImage, blurredImage);
+		thresholdProcess->process(blurredImage, thresholdedImage);
+		erodeProcess->process(thresholdedImage, erodedImage);
+		emit processDone();
+	}
 }

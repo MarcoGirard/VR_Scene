@@ -1,23 +1,18 @@
 #include "VR_ColorCalibrator.h"
 
-void VR_ColorCalibrator::reject()
-{
-	imageProcessor->disconnect();
-	VR_ColorCalibrator::close();
-}
 
 VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	: QDialog(parent),
-	mainWidget{new QWidget()},
-	mainLayout{new QHBoxLayout()},
-	videoTabs{new QTabWidget()},
-	blurWidget{ new QWidget()},
-	thresholdWidget{ new QWidget()},
-	rawVideoLabel{ new QLabel() },
-	blurVideoLabel{ new QLabel() },
-	threshVideoLabel{ new QLabel() },
-	erodedVideoLabel{ new QLabel() },
-	activeVideoLabel{new QLabel()},
+	mainWidget{new QWidget(parent)},
+	mainLayout{new QHBoxLayout(parent)},
+	videoTabs{new QTabWidget(parent)},
+	blurWidget{ new QWidget(parent)},
+	thresholdWidget{ new QWidget(parent)},
+	rawVideoLabel{ new QLabel(parent) },
+	blurVideoLabel{ new QLabel(parent) },
+	threshVideoLabel{ new QLabel(parent) },
+	erodedVideoLabel{ new QLabel(parent) },
+	activeVideoLabel{new QLabel(parent)},
 	imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
 	saturationScrollBar{ new QLowHighScrollBar("Saturation",parent) },
@@ -26,8 +21,12 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurWidgetLayout{ new QVBoxLayout()},
 	currentFrameType{VR_ImageProcessor::ProcessedImageType::RAW},
 	blurWidgdetLabel{new QLabel("Blur")},
-	blurSpinbox{new QSpinBox(parent)}
+	blurSpinbox{new QSpinBox(parent)},
+	saveBtn{new QPushButton("Enregistrer l'image", this)},
+	chkBoxProcess{new QCheckBox(parent)}
 {
+
+	chkBoxProcess->setCheckState(Qt::Checked);
 	/* Video tabs setup */
 	videoTabs->addTab(rawVideoLabel, "raw");
 	videoTabs->addTab(blurVideoLabel, "blur");
@@ -38,7 +37,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	/* Blur widget setup*/
 	blurSpinbox->setRange(1, 13);
 	blurSpinbox->setSingleStep(2);
-	blurSpinbox->setValue(5);
+	blurSpinbox->setValue(3);
 	blurSpinbox->setToolTip(QString("min: 1 (pas de blur)\nmax: 13\nAttention, ne pas changer\nla valeur trop rapidement!"));
 	blurWidget->setLayout(blurWidgetLayout);
 	blurWidgetLayout->addWidget(blurWidgdetLabel);
@@ -60,8 +59,11 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	mainLayout->addWidget(videoTabs);
 	mainLayout->addWidget(blurWidget);
 	mainLayout->addWidget(thresholdWidget);
+	mainLayout->addWidget(saveBtn);
+	mainLayout->addWidget(chkBoxProcess);
 	setLayout(mainLayout);
 
+	connect(saveBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::saveImage);
 	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 
@@ -72,11 +74,10 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
 	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
 	
+	connect(chkBoxProcess, &QCheckBox::toggled, this, &VR_ColorCalibrator::processStateChanged);
 	thresholdValueChanged();
-}
 
-VR_ColorCalibrator::~VR_ColorCalibrator()
-{
+	loadImage();
 }
 
 VR_ThresholdValues VR_ColorCalibrator::thresholdValues()
@@ -126,6 +127,34 @@ void VR_ColorCalibrator::thresholdValueChanged()
 void VR_ColorCalibrator::newKernelSize()
 {
 	emit kernelSizeUpdated(blurSpinbox->value());
+}
+
+void VR_ColorCalibrator::saveImage()
+{
+	++savedImgCount;
+	
+	string frameName = "frame_" + std::to_string(savedImgCount) + ".jpg";
+	activeVideoLabel->pixmap()->save(QString::fromStdString(frameName));
+}
+
+void VR_ColorCalibrator::processStateChanged()
+{
+	if (chkBoxProcess->isChecked()) {
+		imageProcessor->setProcess(true);
+	} else {
+		imageProcessor->setProcess(false);
+	}
+}
+
+void VR_ColorCalibrator::loadImage()
+{
+	QImage * img = new QImage(getImagePath());
+	imageProcessor->setStaticImg(img);
+}
+
+QString VR_ColorCalibrator::getImagePath()
+{
+	return QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
 }
 
 void VR_ColorCalibrator::receiveFrame()

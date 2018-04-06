@@ -12,7 +12,7 @@ public:
 	virtual void process(const Mat &imgIn, Mat &imgOut) override;
 
 private:
-	int kernelSize{ 3 };
+	int kernelSize{ 5 };
 
 public slots:
 	void updateKernelSize(int newKernelSize);

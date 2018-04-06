@@ -14,7 +14,7 @@ VR_ErodeProcess::~VR_ErodeProcess()
 // https://docs.opencv.org/2.4/doc/tutorials/imgproc/erosion_dilatation/erosion_dilatation.html
 void VR_ErodeProcess::process(const Mat & imgIn, Mat & imgOut)
 {
-	int erosionSize{ 1 };
+	int erosionSize{ 5 };
 	/*int erosion_type;
 	if (erosion_elem == 0) { erosion_type = MORPH_RECT; }
 	else if (erosion_elem == 1) { erosion_type = MORPH_CROSS; }

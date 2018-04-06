@@ -20,6 +20,7 @@ private:
 	VR_ThresholdProcess * thresholdProcess;
 	VR_ErodeProcess * erodeProcess;
 	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage;
+	bool mProcess{ false };
 
 public:
 	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL };
@@ -28,6 +29,8 @@ public:
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);
 	QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format);
 	void disconnect();
+	void setProcess(bool process);
+	void setStaticImg(QImage * img);
 	
 
 

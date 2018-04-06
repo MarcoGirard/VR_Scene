@@ -30,6 +30,8 @@ Mat VR_FrameGrabberProcess::qimage_to_mat_ref(QImage &img, int format)
 
 void VR_FrameGrabberProcess::frameReceived(QImage frame)
 {
+	// somehow, le frame reçu de la webcam est à l'envers, donc je le tourne avant
+	// de l'envoyer plus loin
 	QTransform transform;
 	transform.rotate(180);
 

@@ -30,7 +30,7 @@ void VR_BlurProcess::process(const Mat &imgIn, Mat &imgOut)
 	int verticalOffset{ imgWidth * horizontalOffset };
 	int rowGap{ horizontalOffset * 2};
 	
-	int const *currentInPixel{ reinterpret_cast<int const*>(imgIn.ptr()) };
+	int const * currentInPixel{ reinterpret_cast<int const*>(imgIn.ptr()) };
 	int * curOut{ reinterpret_cast<int*>(imgOut.ptr()) };
 	int const * kernelPixel{ nullptr };
 
