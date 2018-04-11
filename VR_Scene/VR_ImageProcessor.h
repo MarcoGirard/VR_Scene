@@ -20,7 +20,7 @@ private:
 	VR_ThresholdProcess * thresholdProcess;
 	VR_ErodeProcess * erodeProcess;
 	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage;
-	bool mProcess{ false };
+	bool mProcess{ true };
 
 public:
 	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL };

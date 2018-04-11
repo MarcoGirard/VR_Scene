@@ -39,7 +39,7 @@ private:
 	QLowHighScrollBar * valueScrollBar;
 	QSpinBox * blurSpinbox;
 	VR_ThresholdValues currentThresholdValues;
-	QPushButton * saveBtn;
+	QPushButton * saveBtn, * loadBtn;
 	unsigned int savedImgCount{ 0 };
 	QCheckBox * chkBoxProcess;
 	
@@ -53,6 +53,7 @@ public:
 	VR_ThresholdValues thresholdValues();
 	void loadImage();
 	QString getImagePath();
+	void process();
 
 signals:
 	void newThresholdValues(VR_ThresholdValues newValues);

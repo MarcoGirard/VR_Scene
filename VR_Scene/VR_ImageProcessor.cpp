@@ -55,6 +55,7 @@ void VR_ImageProcessor::setProcess(bool process)
 void VR_ImageProcessor::setStaticImg(QImage * img)
 {
 	rawImage = cv::Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine());
+	process();
 }
 
 
@@ -62,20 +63,22 @@ void VR_ImageProcessor::setStaticImg(QImage * img)
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 {
 	emit newThresholdValues(newValues);
+	process();
 }
 
 void VR_ImageProcessor::kernelSizeUpdated(int newKernelSize)
 {
 	emit updateKernelSize(newKernelSize);
+	process();
 }
 
 void VR_ImageProcessor::process()
 {
 	if (mProcess) {
 		frameGrabber->process(rawImage, rawImage);
+	}
 		blurProcess->process(rawImage, blurredImage);
 		thresholdProcess->process(blurredImage, thresholdedImage);
-		erodeProcess->process(thresholdedImage, erodedImage);
+		//erodeProcess->process(thresholdedImage, erodedImage);
 		emit processDone();
-	}
 }

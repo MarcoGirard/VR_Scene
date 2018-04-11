@@ -20,10 +20,11 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	thresholdWidgetLayout{ new QVBoxLayout() },
 	blurWidgetLayout{ new QVBoxLayout()},
 	currentFrameType{VR_ImageProcessor::ProcessedImageType::RAW},
-	blurWidgdetLabel{new QLabel("Blur")},
+	blurWidgdetLabel{new QLabel("Blur", parent)},
 	blurSpinbox{new QSpinBox(parent)},
-	saveBtn{new QPushButton("Enregistrer l'image", this)},
-	chkBoxProcess{new QCheckBox(parent)}
+	saveBtn{new QPushButton("Enregistrer l'image", parent)},
+	chkBoxProcess{new QCheckBox(parent)},
+	loadBtn{new QPushButton("load",parent)}
 {
 
 	chkBoxProcess->setCheckState(Qt::Checked);
@@ -60,10 +61,12 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	mainLayout->addWidget(blurWidget);
 	mainLayout->addWidget(thresholdWidget);
 	mainLayout->addWidget(saveBtn);
+	mainLayout->addWidget(loadBtn);
 	mainLayout->addWidget(chkBoxProcess);
 	setLayout(mainLayout);
 
 	connect(saveBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::saveImage);
+	connect(loadBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::loadImage);
 	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 
@@ -71,13 +74,12 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	connect(saturationScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 	connect(valueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 
-	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::newThresholdValues);
+	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::updateThresholdValues);
 	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
 	
 	connect(chkBoxProcess, &QCheckBox::toggled, this, &VR_ColorCalibrator::processStateChanged);
 	thresholdValueChanged();
 
-	loadImage();
 }
 
 VR_ThresholdValues VR_ColorCalibrator::thresholdValues()
@@ -149,12 +151,19 @@ void VR_ColorCalibrator::processStateChanged()
 void VR_ColorCalibrator::loadImage()
 {
 	QImage * img = new QImage(getImagePath());
+	imageProcessor->disconnect();
 	imageProcessor->setStaticImg(img);
+	//process();
 }
 
 QString VR_ColorCalibrator::getImagePath()
 {
 	return QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
+}
+
+void VR_ColorCalibrator::process()
+{
+	imageProcessor->process();
 }
 
 void VR_ColorCalibrator::receiveFrame()
