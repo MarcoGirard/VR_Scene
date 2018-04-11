@@ -32,7 +32,8 @@ private:
 		   *threshVideoLabel,
 		   *blurWidgdetLabel,
 		   *activeVideoLabel,
-		   *erodedVideoLabel;
+		   *erodedVideoLabel,
+		   *blobVideoLabel;
 	VR_ImageProcessor * imageProcessor;
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;

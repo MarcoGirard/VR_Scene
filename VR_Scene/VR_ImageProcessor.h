@@ -6,6 +6,7 @@
 #include "VR_BlurProcess.h"
 #include "VR_ThresholdProcess.h"
 #include "VR_ErodeProcess.h"
+#include "VR_BlobProcess.h"
 #include <QPixmap>
 #include <string>
 
@@ -19,11 +20,12 @@ private:
 	VR_BlurProcess * blurProcess;
 	VR_ThresholdProcess * thresholdProcess;
 	VR_ErodeProcess * erodeProcess;
-	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage;
+	VR_BlobProcess * blobProcess;
+	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage, blobImage;
 	bool mProcess{ true };
 
 public:
-	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL };
+	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL, BLOB };
 	VR_ImageProcessor(QObject * parent);
 	~VR_ImageProcessor();
 	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);
