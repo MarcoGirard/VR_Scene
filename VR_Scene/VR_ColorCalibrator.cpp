@@ -12,9 +12,10 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurVideoLabel{ new QLabel(parent) },
 	threshVideoLabel{ new QLabel(parent) },
 	erodedVideoLabel{ new QLabel(parent) },
-	activeVideoLabel{ new QLabel(parent) },
+	trackingStatusLight{ new QLabel(parent) },
+	//activeVideoLabel{ new QLabel(parent) },
 	blobVideoLabel{new QLabel(parent)},
-	imageProcessor{ new VR_ImageProcessor(parent)},
+	//imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
 	saturationScrollBar{ new QLowHighScrollBar("Saturation",parent) },
 	valueScrollBar{ new QLowHighScrollBar("Value",parent)},
@@ -24,7 +25,8 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	blurWidgdetLabel{new QLabel("Blur", parent)},
 	blurSpinbox{new QSpinBox(parent)},
 	saveBtn{new QPushButton("Enregistrer l'image", parent)},
-	chkBoxProcess{new QCheckBox(parent)},
+	chkBoxProcess{ new QCheckBox(parent) },
+	chkBoxDetect{new QCheckBox(parent)},
 	loadBtn{new QPushButton("load",parent)}
 {
 
@@ -38,7 +40,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	activeVideoLabel = rawVideoLabel; // start with raw cam input as first display
 
 	/* Blur widget setup*/
-	blurSpinbox->setRange(1, 13);
+	blurSpinbox->setRange(3, 13);
 	blurSpinbox->setSingleStep(2);
 	blurSpinbox->setValue(3);
 	blurSpinbox->setToolTip(QString("min: 1 (pas de blur)\nmax: 13\nAttention, ne pas changer\nla valeur trop rapidement!"));
@@ -50,8 +52,11 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 
 	/* Threshold widget setup*/
 	hueScrollBar->setRange(0, 255);
+	hueScrollBar->set(89, 128);
 	saturationScrollBar->setRange(0, 255);
+	saturationScrollBar->set(46, 205);
 	valueScrollBar->setRange(0, 255);
+	valueScrollBar->set(46, 188);
 	thresholdWidget->setLayout(thresholdWidgetLayout);
 	thresholdWidgetLayout->addWidget(hueScrollBar);
 	thresholdWidgetLayout->addWidget(saturationScrollBar);
@@ -59,27 +64,37 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	thresholdWidgetLayout->addStretch();
 	thresholdWidget->hide();
 
+	/* trackingStatusLight setup*/
+	trackingStatusLight->setFixedSize(QSize(200, 200));
+	
+	trackingStatusLight->setAutoFillBackground(true);
+	setIndicatorLightColor(trackingStatusLight);
+	
+
 	mainLayout->addWidget(videoTabs);
 	mainLayout->addWidget(blurWidget);
 	mainLayout->addWidget(thresholdWidget);
 	mainLayout->addWidget(saveBtn);
 	mainLayout->addWidget(loadBtn);
 	mainLayout->addWidget(chkBoxProcess);
+	mainLayout->addWidget(chkBoxDetect);
+	mainLayout->addWidget(trackingStatusLight);
 	setLayout(mainLayout);
 
 	connect(saveBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::saveImage);
 	connect(loadBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::loadImage);
-	connect(imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
+	connect(&imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 
 	connect(hueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 	connect(saturationScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 	connect(valueScrollBar, &QLowHighScrollBar::valueUpdated, this, &VR_ColorCalibrator::thresholdValueChanged);
 
-	connect(this, &VR_ColorCalibrator::newThresholdValues, imageProcessor, &VR_ImageProcessor::updateThresholdValues);
-	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
+	connect(this, &VR_ColorCalibrator::newThresholdValues, &imageProcessor, &VR_ImageProcessor::updateThresholdValues);
+	connect(blurSpinbox, QOverload<int>::of(&QSpinBox::valueChanged), &imageProcessor, &VR_ImageProcessor::kernelSizeUpdated);
 	
 	connect(chkBoxProcess, &QCheckBox::toggled, this, &VR_ColorCalibrator::processStateChanged);
+	connect(chkBoxDetect, &QCheckBox::toggled, &imageProcessor, &VR_ImageProcessor::toggleBlobDetection);
 	thresholdValueChanged();
 
 }
@@ -149,17 +164,17 @@ void VR_ColorCalibrator::saveImage()
 void VR_ColorCalibrator::processStateChanged()
 {
 	if (chkBoxProcess->isChecked()) {
-		imageProcessor->setProcess(true);
+		imageProcessor.setProcess(true);
 	} else {
-		imageProcessor->setProcess(false);
+		imageProcessor.setProcess(false);
 	}
 }
 
 void VR_ColorCalibrator::loadImage()
 {
 	QImage * img = new QImage(getImagePath());
-	imageProcessor->disconnect();
-	imageProcessor->setStaticImg(img);
+	imageProcessor.disconnect();
+	imageProcessor.setStaticImg(img);
 	//process();
 }
 
@@ -170,10 +185,24 @@ QString VR_ColorCalibrator::getImagePath()
 
 void VR_ColorCalibrator::process()
 {
-	imageProcessor->process();
+	imageProcessor.process();
+}
+
+void VR_ColorCalibrator::setIndicatorLightColor(QLabel * label)
+{
+	QPalette palette;
+	if (imageProcessor.isTracked()) {
+		palette.setColor(QPalette::Window, Qt::green);
+	}
+	else {
+		palette.setColor(QPalette::Window, Qt::red);
+	}
+	label->setPalette(palette);
+
 }
 
 void VR_ColorCalibrator::receiveFrame()
 {
-	activeVideoLabel->setPixmap(imageProcessor->getPixmap(currentFrameType));
+	setIndicatorLightColor(trackingStatusLight);
+	activeVideoLabel->setPixmap(imageProcessor.getPixmap(currentFrameType));
 }

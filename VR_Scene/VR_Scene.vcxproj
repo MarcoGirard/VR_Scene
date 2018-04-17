@@ -119,6 +119,7 @@
     <ClCompile Include="..\..\..\Projet_synthese\cameraInterface\cameraInterface\VR_Image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QLowHighScrollBar.cpp" />
+    <ClCompile Include="VR_3DCanvas.cpp" />
     <ClCompile Include="VR_BlobProcess.cpp" />
     <ClCompile Include="VR_BlurProcess.cpp" />
     <ClCompile Include="VR_calibrationWidget.cpp" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QLowHighScrollBar.h" />
+    <ClInclude Include="VR_3DCanvas.h" />
     <ClInclude Include="VR_BlobProcess.h" />
     <ClInclude Include="VR_ErodeProcess.h" />
     <ClInclude Include="VR_thresholdProcess.h" />

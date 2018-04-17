@@ -11,7 +11,7 @@ class VR_FrameGrabberProcess :
 {
 	Q_OBJECT	
 private:
-	QCamera * cam;
+	QCamera cam;
 	VR_CameraFrameGrabber * frameGrabber;
 	QImage currentFrame;
 	Mat qimage_to_mat_ref(QImage &img, int format);

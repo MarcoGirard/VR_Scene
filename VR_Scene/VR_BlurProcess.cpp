@@ -17,7 +17,8 @@ VR_BlurProcess::~VR_BlurProcess()
 
 void VR_BlurProcess::process(const Mat &imgIn, Mat &imgOut)
 {
-	imgIn.copyTo(imgOut);
+	//imgIn.copyTo(imgOut);
+	imgOut = imgIn.clone();
 
 	double totalR{ 0.0 }, totalG{ 0.0 }, totalB{ 0.0 };
 	int imgWidth{ imgIn.cols }, imgHeight{ imgIn.rows };

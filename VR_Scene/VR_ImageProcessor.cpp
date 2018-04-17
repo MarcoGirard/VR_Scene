@@ -12,8 +12,8 @@ VR_ImageProcessor::VR_ImageProcessor(QObject * parent) :
 {
 
 	connect(frameGrabber, &VR_FrameGrabberProcess::startProcess, this, &VR_ImageProcessor::process);
-	connect(this, &VR_ImageProcessor::newThresholdValues, thresholdProcess, &VR_ThresholdProcess::updateThresholdValues);
-	connect(this, &VR_ImageProcessor::updateKernelSize, blurProcess, &VR_BlurProcess::updateKernelSize);
+	//connect(this, &VR_ImageProcessor::newThresholdValues, thresholdProcess, &VR_ThresholdProcess::updateThresholdValues);
+	//connect(this, &VR_ImageProcessor::updateKernelSize, blurProcess, &VR_BlurProcess::updateKernelSize);
 }
 
 
@@ -21,9 +21,9 @@ VR_ImageProcessor::~VR_ImageProcessor()
 {
 }
 
-QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel)
+QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frameType)
 {
-	switch (imgLabel) {
+	switch (frameType) {
 	case VR_ImageProcessor::ProcessedImageType::RAW : return QPixmap::fromImage(mat_to_qimage_ref(rawImage, QImage::Format_ARGB32));
 		break;
 	case VR_ImageProcessor::ProcessedImageType::BLURRED : return QPixmap::fromImage(mat_to_qimage_ref(blurredImage, QImage::Format_ARGB32));
@@ -32,7 +32,7 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType imgLa
 		break;
 	case VR_ImageProcessor::ProcessedImageType::ERODED: return QPixmap::fromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLOB: return QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::BLOB: return QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_RGB888));
 		break;
 	case VR_ImageProcessor::ProcessedImageType::FINAL : return QPixmap::fromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));
 		break;
@@ -58,31 +58,52 @@ void VR_ImageProcessor::setProcess(bool process)
 void VR_ImageProcessor::setStaticImg(QImage * img)
 {
 	rawImage = cv::Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine());
-	//process();
+	if (!mProcess) {
+		process();
+	}
 }
 
 
 
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 {
-	emit newThresholdValues(newValues);
-	//process();
+	//emit newThresholdValues(newValues);
+	// Si l'option de process n'est pas activé, je veux moi même partir un process
+	// quand je change la valeur du treshold, même chose pour le kernel size 
+	thresholdProcess->updateThresholdValues(newValues);
+	if (!mProcess) {
+		process();
+	}
 }
 
 void VR_ImageProcessor::kernelSizeUpdated(int newKernelSize)
 {
-	emit updateKernelSize(newKernelSize);
-	//process();
+	//emit updateKernelSize(newKernelSize);
+	blurProcess->updateKernelSize(newKernelSize);
+	if (!mProcess) {
+		process();
+	}
+}
+
+void VR_ImageProcessor::toggleBlobDetection()
+{
+	if (mDetect) {
+		mDetect = false;
+	} else {
+		mDetect = true;
+	}
 }
 
 void VR_ImageProcessor::process()
 {
-	if (mProcess) {
-		frameGrabber->process(rawImage, rawImage);
-	}
+	frameGrabber->process(rawImage, rawImage);
 	blurProcess->process(rawImage, blurredImage);
-	thresholdProcess->process(blurredImage, thresholdedImage);
+	if (mProcess) {
+		thresholdProcess->process(blurredImage, thresholdedImage);
+	}
 	//erodeProcess->process(thresholdedImage, erodedImage);
-	blobProcess->process(thresholdedImage, blobImage);
+	if (mDetect) {
+		blobProcess->process(thresholdedImage, blobImage);
+	}
 	emit processDone();
 }

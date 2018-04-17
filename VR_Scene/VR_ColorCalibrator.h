@@ -33,8 +33,9 @@ private:
 		   *blurWidgdetLabel,
 		   *activeVideoLabel,
 		   *erodedVideoLabel,
-		   *blobVideoLabel;
-	VR_ImageProcessor * imageProcessor;
+		   *blobVideoLabel,
+	       *trackingStatusLight;
+	VR_ImageProcessor imageProcessor;
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;
 	QLowHighScrollBar * valueScrollBar;
@@ -42,10 +43,12 @@ private:
 	VR_ThresholdValues currentThresholdValues;
 	QPushButton * saveBtn, * loadBtn;
 	unsigned int savedImgCount{ 0 };
-	QCheckBox * chkBoxProcess;
+	QCheckBox * chkBoxProcess, * chkBoxDetect;
 	
 	
 	VR_ImageProcessor::ProcessedImageType currentFrameType;
+
+	bool tracked{ false };
 
 
 
@@ -55,6 +58,7 @@ public:
 	void loadImage();
 	QString getImagePath();
 	void process();
+	void setIndicatorLightColor(QLabel * label);
 
 signals:
 	void newThresholdValues(VR_ThresholdValues newValues);
