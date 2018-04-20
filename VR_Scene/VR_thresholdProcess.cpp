@@ -42,6 +42,7 @@ void VR_ThresholdProcess::process(const Mat &imgIn, Mat &imgOut)
 		rgbToHsv(r, g, b, h, s, v);
 		
 		/* test si le pixel respectent les conditions de segmentation */
+		// J'ai un potientiel d'optimisation ici... (ordre du if/else)
 		if (h>hMin && h<hMax && s>sMin && s<sMax && v>vMin && v<vMax) {
 			*outCur = 0xFFFFFFFF;
 		} else {

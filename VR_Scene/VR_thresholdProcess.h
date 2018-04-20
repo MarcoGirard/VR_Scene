@@ -12,7 +12,7 @@ public:
 
 	// Hérité via VR_ImageProcess
 	virtual void process(const Mat &imgIn, Mat &imgOut) override;
-	void rgbToHsv(const uchar &r, const uchar &g, const uchar &b, uchar &h, uchar &s, uchar &v);
+	inline void rgbToHsv(const uchar &r, const uchar &g, const uchar &b, uchar &h, uchar &s, uchar &v);
 	
 public slots:
 	void updateThresholdValues(VR_ThresholdValues newValues);

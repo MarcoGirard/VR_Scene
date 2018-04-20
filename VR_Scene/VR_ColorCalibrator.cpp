@@ -13,7 +13,7 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	threshVideoLabel{ new QLabel(parent) },
 	erodedVideoLabel{ new QLabel(parent) },
 	trackingStatusLight{ new QLabel(parent) },
-	//activeVideoLabel{ new QLabel(parent) },
+	activeVideoLabel{ nullptr },
 	blobVideoLabel{new QLabel(parent)},
 	//imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
@@ -106,6 +106,7 @@ VR_ThresholdValues VR_ColorCalibrator::thresholdValues()
 
 void VR_ColorCalibrator::tabChanged()
 {
+
 	switch (videoTabs->currentIndex()) {
 	case 0: currentFrameType = VR_ImageProcessor::ProcessedImageType::RAW;
 		thresholdWidget->hide();
@@ -135,8 +136,6 @@ void VR_ColorCalibrator::tabChanged()
 	}
 }
 
-// QUESTION POUR JC : Est-ce plus clean de faire tout le temps les 6 appels? 
-//					  ou je fais une slot pour chaque?
 void VR_ColorCalibrator::thresholdValueChanged()
 {
 	currentThresholdValues.minHue = hueScrollBar->lowValue();
@@ -146,11 +145,6 @@ void VR_ColorCalibrator::thresholdValueChanged()
 	currentThresholdValues.minValue = valueScrollBar->lowValue();
 	currentThresholdValues.maxValue = valueScrollBar->highValue();
 	emit newThresholdValues(currentThresholdValues);
-}
-
-void VR_ColorCalibrator::newKernelSize()
-{
-	emit kernelSizeUpdated(blurSpinbox->value());
 }
 
 void VR_ColorCalibrator::saveImage()

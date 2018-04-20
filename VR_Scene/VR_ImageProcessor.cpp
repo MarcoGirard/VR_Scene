@@ -30,9 +30,9 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frame
 		break;
 	case VR_ImageProcessor::ProcessedImageType::THRESHOLDED : return QPixmap::fromImage(mat_to_qimage_ref(thresholdedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::ERODED: return QPixmap::fromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::ERODED : return QPixmap::fromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLOB: return QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_RGB888));
+	case VR_ImageProcessor::ProcessedImageType::BLOB : return QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_RGB888));
 		break;
 	case VR_ImageProcessor::ProcessedImageType::FINAL : return QPixmap::fromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));
 		break;
@@ -67,7 +67,6 @@ void VR_ImageProcessor::setStaticImg(QImage * img)
 
 void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 {
-	//emit newThresholdValues(newValues);
 	// Si l'option de process n'est pas activé, je veux moi même partir un process
 	// quand je change la valeur du treshold, même chose pour le kernel size 
 	thresholdProcess->updateThresholdValues(newValues);
@@ -97,6 +96,7 @@ void VR_ImageProcessor::toggleBlobDetection()
 void VR_ImageProcessor::process()
 {
 	frameGrabber->process(rawImage, rawImage);
+	
 	blurProcess->process(rawImage, blurredImage);
 	if (mProcess) {
 		thresholdProcess->process(blurredImage, thresholdedImage);

@@ -68,7 +68,6 @@ public slots:
 	void receiveFrame();
 	void tabChanged();
 	void thresholdValueChanged();
-	void newKernelSize();
 	void saveImage();
 	void processStateChanged();
 };
