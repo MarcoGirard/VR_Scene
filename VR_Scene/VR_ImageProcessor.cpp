@@ -42,7 +42,7 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frame
 // Pris sur http://qtandopencv.blogspot.ca/2013/08/how-to-convert-between-cvmat-and-qimage.html
 QImage VR_ImageProcessor::mat_to_qimage_ref(cv::Mat & mat, QImage::Format format)
 {
-	return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
+	return QImage(mat.data, mat.cols, mat.rows, mat.step, format).copy();
 }
 
 void VR_ImageProcessor::disconnect()
@@ -57,7 +57,7 @@ void VR_ImageProcessor::setProcess(bool process)
 
 void VR_ImageProcessor::setStaticImg(QImage * img)
 {
-	rawImage = cv::Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine());
+	Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine()).copyTo(rawImage);
 	if (!mProcess) {
 		process();
 	}

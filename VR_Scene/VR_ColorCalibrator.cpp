@@ -166,10 +166,10 @@ void VR_ColorCalibrator::processStateChanged()
 
 void VR_ColorCalibrator::loadImage()
 {
-	QImage * img = new QImage(getImagePath());
+	QImage img(getImagePath());
 	imageProcessor.disconnect();
-	imageProcessor.setStaticImg(img);
-	//process();
+	imageProcessor.setStaticImg(&img);
+	
 }
 
 QString VR_ColorCalibrator::getImagePath()
