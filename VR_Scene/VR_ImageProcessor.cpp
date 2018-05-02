@@ -57,7 +57,7 @@ void VR_ImageProcessor::setProcess(bool process)
 
 void VR_ImageProcessor::setStaticImg(QImage * img)
 {
-	Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine()).copyTo(rawImage);
+	cv::Mat(img->height(), img->width(), QImage::Format_ARGB32, img->bits(), img->bytesPerLine()).copyTo(rawImage);
 	if (!mProcess) {
 		process();
 	}

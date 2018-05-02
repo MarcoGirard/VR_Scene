@@ -148,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QLowHighScrollBar.h" />
-    <ClInclude Include="VR_3DCanvas.h" />
+    <QtMoc Include="VR_3DCanvas.h" />
     <ClInclude Include="VR_BlobProcess.h" />
     <ClInclude Include="VR_ErodeProcess.h" />
     <ClInclude Include="VR_thresholdProcess.h" />

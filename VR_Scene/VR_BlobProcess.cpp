@@ -12,11 +12,11 @@ VR_BlobProcess::~VR_BlobProcess()
 {
 }
 
-void VR_BlobProcess::process(const Mat & imgIn, Mat & imgOut)
+void VR_BlobProcess::process(const cv::Mat & imgIn, cv::Mat & imgOut)
 {
 
 	// Setup SimpleBlobDetector parameters.
-	SimpleBlobDetector::Params params;
+	cv::SimpleBlobDetector::Params params;
 
 	params.filterByArea = true;
 	params.minArea = 1000;
@@ -36,7 +36,7 @@ void VR_BlobProcess::process(const Mat & imgIn, Mat & imgOut)
 #else
 
 	// Set up detector with params
-	Ptr<SimpleBlobDetector> detector = SimpleBlobDetector::create(params);
+	cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);
 
 	// SimpleBlobDetector::create creates a smart pointer. 
 	// So you need to use arrow ( ->) instead of dot ( . )
@@ -48,21 +48,11 @@ void VR_BlobProcess::process(const Mat & imgIn, Mat & imgOut)
 	detector->detect(imgIn, keypoints);
 
 	
-	Mat imgInDummy;
+	cv::Mat imgInDummy;
 	imgIn.copyTo(imgInDummy);
 	cvtColor(imgInDummy, imgInDummy, CV_RGB2GRAY);
 	
-
-
-	try {
-		drawKeypoints(imgInDummy, keypoints, imgOut, Scalar(255,128,128), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-	}
-	catch (cv::Exception &e) {
-		int a{ 0 };
-	}
-	
-	
-		
+	drawKeypoints(imgInDummy, keypoints, imgOut, cv::Scalar(255,128,128), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 }
 
 bool VR_BlobProcess::isTracked()

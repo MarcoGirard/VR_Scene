@@ -10,7 +10,7 @@
 #include <QPixmap>
 #include <string>
 
-using namespace cv;
+//using namespace cv;
 
 class VR_ImageProcessor : public QObject
 {
@@ -21,7 +21,7 @@ private:
 	VR_ThresholdProcess * thresholdProcess;
 	VR_ErodeProcess * erodeProcess;
 	VR_BlobProcess * blobProcess;
-	Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage, blobImage;
+	cv::Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage, blobImage;
 	bool mProcess{ true };
 	bool mDetect{ true };
 	

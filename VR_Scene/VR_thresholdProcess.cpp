@@ -12,7 +12,7 @@ VR_ThresholdProcess::~VR_ThresholdProcess()
 {
 }
 
-void VR_ThresholdProcess::process(const Mat &imgIn, Mat &imgOut)
+void VR_ThresholdProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 {
 	/* Cette fonction est pratiquement une copie des fonctions de segmentation
 		dans QuickPgrDemo...

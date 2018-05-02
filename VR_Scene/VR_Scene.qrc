@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="VR_Scene">
+    <qresource prefix="/VR_Scene">
+        <file>Resources/shaders/fshader.glsl</file>
+        <file>Resources/shaders/vshader.glsl</file>
     </qresource>
 </RCC>

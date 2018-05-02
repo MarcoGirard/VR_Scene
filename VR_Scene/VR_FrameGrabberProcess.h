@@ -14,14 +14,14 @@ private:
 	QCamera cam;
 	VR_CameraFrameGrabber * frameGrabber;
 	QImage currentFrame;
-	Mat qimage_to_mat_ref(QImage &img, int format);
+	cv::Mat qimage_to_mat_ref(QImage &img, int format);
 
 public:
 	VR_FrameGrabberProcess(QObject * parent);
 	void disconnect();
 	
 	// Hérité via VR_ImageProcess
-	virtual void process(const Mat &imgIn, Mat &imgOut) override;
+	virtual void process(const cv::Mat &imgIn, cv::Mat &imgOut) override;
 
 signals:
 	void frameAvailable(QImage frame);

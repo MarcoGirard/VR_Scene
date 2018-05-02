@@ -11,7 +11,7 @@ public:
 	~VR_BlobProcess();
 
 	// Hérité via VR_ImageProcess
-	virtual void process(const Mat & imgIn, Mat & imgOut) override;
+	virtual void process(const cv::Mat & imgIn, cv::Mat & imgOut) override;
 	bool isTracked();
 
 };

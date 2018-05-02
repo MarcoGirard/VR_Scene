@@ -12,7 +12,7 @@ VR_ErodeProcess::~VR_ErodeProcess()
 {
 }
 // https://docs.opencv.org/2.4/doc/tutorials/imgproc/erosion_dilatation/erosion_dilatation.html
-void VR_ErodeProcess::process(const Mat & imgIn, Mat & imgOut)
+void VR_ErodeProcess::process(const cv::Mat & imgIn, cv::Mat & imgOut)
 {
 	int erosionSize{ 5 };
 	/*int erosion_type;
@@ -20,9 +20,9 @@ void VR_ErodeProcess::process(const Mat & imgIn, Mat & imgOut)
 	else if (erosion_elem == 1) { erosion_type = MORPH_CROSS; }
 	else if (erosion_elem == 2) { erosion_type = MORPH_ELLIPSE; }*/
 
-	Mat kernel = getStructuringElement(MORPH_RECT,
-		Size(2 * erosionSize + 1, 2 * erosionSize + 1),
-		Point(erosionSize, erosionSize));
+	cv::Mat kernel = getStructuringElement(cv::MORPH_RECT,
+		cv::Size(2 * erosionSize + 1, 2 * erosionSize + 1),
+		cv::Point(erosionSize, erosionSize));
 
 	cv::erode(imgIn, imgOut, kernel);
 }

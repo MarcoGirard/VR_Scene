@@ -98,6 +98,9 @@
     <QtMoc Include="QLowHighScrollBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="VR_3DCanvas.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="VR_Scene.ui">
@@ -123,9 +126,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VR_BlobProcess.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VR_3DCanvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
