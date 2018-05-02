@@ -116,6 +116,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="QGeometryEngine.cpp" />
     <ClCompile Include="QLowHighScrollBar.cpp" />
     <ClCompile Include="VR_3DCanvas.cpp" />
     <ClCompile Include="VR_BlobProcess.cpp" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <QtMoc Include="QLowHighScrollBar.h" />
     <QtMoc Include="VR_3DCanvas.h" />
+    <ClInclude Include="QGeometryEngine.h" />
     <ClInclude Include="VR_BlobProcess.h" />
     <ClInclude Include="VR_ErodeProcess.h" />
     <ClInclude Include="VR_thresholdProcess.h" />
