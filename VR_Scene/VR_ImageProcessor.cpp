@@ -14,6 +14,7 @@ VR_ImageProcessor::VR_ImageProcessor(QObject * parent) :
 	connect(frameGrabber, &VR_FrameGrabberProcess::startProcess, this, &VR_ImageProcessor::process);
 	//connect(this, &VR_ImageProcessor::newThresholdValues, thresholdProcess, &VR_ThresholdProcess::updateThresholdValues);
 	//connect(this, &VR_ImageProcessor::updateKernelSize, blurProcess, &VR_BlurProcess::updateKernelSize);
+	//connect(blobProcess, &VR_BlobProcess::sendViewerCoordinates, this, &VR_ImageProcessor::receiveViewerCoordinates);
 }
 
 
@@ -32,7 +33,13 @@ QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frame
 		break;
 	case VR_ImageProcessor::ProcessedImageType::ERODED : return QPixmap::fromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLOB : return QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_RGB888));
+	case VR_ImageProcessor::ProcessedImageType::BLOB: {
+		QPixmap p = QPixmap::fromImage(mat_to_qimage_ref(blobImage, QImage::Format_RGB888));
+		QPainter paint(&p);
+		paint.setPen(QColor(255, 255, 255, 255));
+		paint.drawText(QPoint(blobProcess->x(),blobProcess->y()),"+");
+		return p;
+	}
 		break;
 	case VR_ImageProcessor::ProcessedImageType::FINAL : return QPixmap::fromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));
 		break;
@@ -93,6 +100,11 @@ void VR_ImageProcessor::toggleBlobDetection()
 	}
 }
 
+void VR_ImageProcessor::receiveViewerCoordinates(int x, int y, int z)
+{
+	emit sendViewerCoordinates(x, y, z);
+}
+
 void VR_ImageProcessor::process()
 {
 	frameGrabber->process(rawImage, rawImage);
@@ -104,6 +116,7 @@ void VR_ImageProcessor::process()
 	//erodeProcess->process(thresholdedImage, erodedImage);
 	if (mDetect) {
 		blobProcess->process(thresholdedImage, blobImage);
+		emit sendViewerCoordinates(blobProcess->x(), blobProcess->y(), blobProcess->z());
 	}
 	emit processDone();
 }

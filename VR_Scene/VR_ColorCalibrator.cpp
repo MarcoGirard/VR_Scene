@@ -95,6 +95,9 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	
 	connect(chkBoxProcess, &QCheckBox::toggled, this, &VR_ColorCalibrator::processStateChanged);
 	connect(chkBoxDetect, &QCheckBox::toggled, &imageProcessor, &VR_ImageProcessor::toggleBlobDetection);
+
+	connect(&imageProcessor, &VR_ImageProcessor::sendViewerCoordinates, this, &VR_ColorCalibrator::receiveViewerCoordinates);
+
 	thresholdValueChanged();
 
 }
@@ -162,6 +165,11 @@ void VR_ColorCalibrator::processStateChanged()
 	} else {
 		imageProcessor.setProcess(false);
 	}
+}
+
+void VR_ColorCalibrator::receiveViewerCoordinates(int x, int y, int z)
+{
+	emit sendViewerCoordinates(x, y, z);
 }
 
 void VR_ColorCalibrator::loadImage()

@@ -46,7 +46,16 @@ void VR_BlobProcess::process(const cv::Mat & imgIn, cv::Mat & imgOut)
 	
 
 	detector->detect(imgIn, keypoints);
-
+	if (keypoints.size() > 1) {
+		int x1, y1, x2, y2;
+		x1 = keypoints.at(0).pt.x;
+		x2 = keypoints.at(1).pt.x;
+		y1 = keypoints.at(0).pt.y;
+		y2 = keypoints.at(1).pt.y;
+		mX = (x1 + x2) / 2;
+		mY = (y1 + y2) / 2;
+		mZ = pow((x2 - x1), 2) + pow((y2 - y1), 2);
+	}
 	
 	cv::Mat imgInDummy;
 	imgIn.copyTo(imgInDummy);

@@ -63,6 +63,7 @@ public:
 signals:
 	void newThresholdValues(VR_ThresholdValues newValues);
 	void kernelSizeUpdated(int newKernelSize);
+	void sendViewerCoordinates(int x, int y, int z);
 
 public slots:
 	void receiveFrame();
@@ -70,4 +71,5 @@ public slots:
 	void thresholdValueChanged();
 	void saveImage();
 	void processStateChanged();
+	void receiveViewerCoordinates(int x, int y, int z);
 };

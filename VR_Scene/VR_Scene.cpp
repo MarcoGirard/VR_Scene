@@ -20,8 +20,12 @@ VR_Scene::VR_Scene(QWidget *parent)
 	mainWidget->setLayout(mainLayout);
 	setCentralWidget(mainWidget);
 
+	colorCalibrator = new VR_ColorCalibrator(this);
+
 	connect(btnColorCalib, &QPushButton::pressed, this, &VR_Scene::startColorCalibrator);
 	connect(btnStartScene, &QPushButton::pressed, this, &VR_Scene::startVrScene);
+
+	connect(colorCalibrator, &VR_ColorCalibrator::sendViewerCoordinates, this, &VR_Scene::receiveViewerCoordinates);
 
 	// POUR LE DEVELOPPEMENT,
 	//startColorCalibrator();
@@ -29,13 +33,17 @@ VR_Scene::VR_Scene(QWidget *parent)
 
 void VR_Scene::startColorCalibrator()
 {
-	colorCalibrator = new VR_ColorCalibrator(this);
 	colorCalibrator->setAttribute(Qt::WA_DeleteOnClose);
-	colorCalibrator->exec();
+	colorCalibrator->show();
 }
 
 void VR_Scene::startVrScene()
 {
-	VR_3DCanvas canvas;
+	//canvas.showFullScreen();
 	canvas.show();
+}
+
+void VR_Scene::receiveViewerCoordinates(int x, int y, int z)
+{
+	canvas.setViewerPosition(x, y, z);
 }

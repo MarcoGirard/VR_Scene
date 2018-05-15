@@ -23,10 +23,11 @@ private:
 	QVBoxLayout * mainLayout;
 	QWidget * mainWidget;
 	QComboBox * camSelection;
+	VR_3DCanvas canvas;
 	VR_ColorCalibrator * colorCalibrator;
-	VR_3DCanvas * canvas;
 
 private slots:
 	void startColorCalibrator();
 	void startVrScene();
+	void receiveViewerCoordinates(int x, int y, int z);
 };

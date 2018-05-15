@@ -19,14 +19,18 @@ public:
 	explicit VR_3DCanvas(QWidget * parent = 0);
 	~VR_3DCanvas();
 
+	void setViewerPosition(int x, int y, int z);
+
 protected:
 	void mousePressEvent(QMouseEvent *e) override;
 	void mouseReleaseEvent(QMouseEvent *e) override;
 	void timerEvent(QTimerEvent *e) override;
+	int mX, mY, mZ;
 
 	void initializeGL() override;
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
+
 
 	void initShaders();
 	void initTextures();

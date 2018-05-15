@@ -20,6 +20,7 @@ VR_3DCanvas::~VR_3DCanvas()
 	doneCurrent();
 }
 
+
 void VR_3DCanvas::mousePressEvent(QMouseEvent * e)
 {
 	mousePressPosition = QVector2D(e->localPos());
@@ -60,6 +61,13 @@ void VR_3DCanvas::timerEvent(QTimerEvent * e)
 		// Request an update
 		update();
 	}
+}
+
+void VR_3DCanvas::setViewerPosition(int x, int y, int z)
+{
+	mX = x;
+	mY = y;
+	mZ = z;
 }
 
 void VR_3DCanvas::initializeGL()
@@ -119,11 +127,11 @@ void VR_3DCanvas::paintGL()
 void VR_3DCanvas::initShaders()
 {
 	// Compile vertex shader
-	if (!program.addShaderFromSourceFile(QOpenGLShader::Vertex, "D:/VR_Scene/VR_Scene/VR_Scene/Resources/shaders/vshader.glsl"))
+	if (!program.addShaderFromSourceFile(QOpenGLShader::Vertex, "vshader.glsl"))
 		close();
 
 	// Compile fragment shader
-	if (!program.addShaderFromSourceFile(QOpenGLShader::Fragment, "D:/VR_Scene/VR_Scene/VR_Scene/Resources/shaders/fshader.glsl"))
+	if (!program.addShaderFromSourceFile(QOpenGLShader::Fragment, "fshader.glsl"))
 		close();
 
 	// Link shader pipeline
@@ -138,7 +146,7 @@ void VR_3DCanvas::initShaders()
 void VR_3DCanvas::initTextures()
 {
 	// Load cube.png image
-	texture = new QOpenGLTexture(QImage("D:/VR_Scene/VR_Scene/VR_Scene/Resources/images/cube.png").mirrored());
+	texture = new QOpenGLTexture(QImage("cube.png").mirrored());
 
 	// Set nearest filtering mode for texture minification
 	texture->setMinificationFilter(QOpenGLTexture::Nearest);

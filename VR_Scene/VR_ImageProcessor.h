@@ -9,6 +9,7 @@
 #include "VR_BlobProcess.h"
 #include <QPixmap>
 #include <string>
+#include <QPainter>
 
 //using namespace cv;
 
@@ -46,11 +47,13 @@ public slots:
 	void updateThresholdValues(VR_ThresholdValues newValues);
 	void kernelSizeUpdated(int newKernelSize);
 	void toggleBlobDetection();
+	void receiveViewerCoordinates(int x, int y, int z);
 
 signals:
 	void processDone();
 	void newThresholdValues(VR_ThresholdValues newValues);
 	void updateKernelSize(int newKernelSize);
+	void sendViewerCoordinates(int x, int y, int z);
 	
 };
 

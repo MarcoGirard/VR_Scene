@@ -128,10 +128,10 @@
     <ClInclude Include="VR_ErodeProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VR_BlobProcess.h">
+    <ClInclude Include="QGeometryEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QGeometryEngine.h">
+    <ClInclude Include="VR_BlobProcess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
