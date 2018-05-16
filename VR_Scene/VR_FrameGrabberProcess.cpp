@@ -24,7 +24,7 @@ void VR_FrameGrabberProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 // Pris sur http://qtandopencv.blogspot.ca/2013/08/how-to-convert-between-cvmat-and-qimage.html
 cv::Mat VR_FrameGrabberProcess::qimage_to_mat_ref(QImage &img, int format)
 {
-	return cv::Mat(img.height(), img.width(),format, img.bits(), img.bytesPerLine()).clone();
+	return cv::Mat(img.height(), img.width(),format, img.bits(), img.bytesPerLine());
 }
 
 void VR_FrameGrabberProcess::frameReceived(QImage frame)

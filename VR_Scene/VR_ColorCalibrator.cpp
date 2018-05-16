@@ -13,21 +13,21 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	threshVideoLabel{ new QLabel(parent) },
 	erodedVideoLabel{ new QLabel(parent) },
 	trackingStatusLight{ new QLabel(parent) },
+	blobInfo{ new QLabel(parent)},
 	activeVideoLabel{ nullptr },
 	blobVideoLabel{new QLabel(parent)},
-	//imageProcessor{ new VR_ImageProcessor(parent)},
 	hueScrollBar{ new QLowHighScrollBar("Hue",parent) },
 	saturationScrollBar{ new QLowHighScrollBar("Saturation",parent) },
 	valueScrollBar{ new QLowHighScrollBar("Value",parent)},
 	thresholdWidgetLayout{ new QVBoxLayout() },
 	blurWidgetLayout{ new QVBoxLayout()},
+	addWidgetLayout{ new QVBoxLayout()},
 	currentFrameType{VR_ImageProcessor::ProcessedImageType::RAW},
 	blurWidgdetLabel{new QLabel("Blur", parent)},
 	blurSpinbox{new QSpinBox(parent)},
 	saveBtn{new QPushButton("Enregistrer l'image", parent)},
 	chkBoxProcess{ new QCheckBox(parent) },
-	chkBoxDetect{new QCheckBox(parent)},
-	loadBtn{new QPushButton("load",parent)}
+	chkBoxDetect{new QCheckBox(parent)}
 {
 
 	chkBoxProcess->setCheckState(Qt::Checked);
@@ -65,24 +65,24 @@ VR_ColorCalibrator::VR_ColorCalibrator(QWidget *parent)
 	thresholdWidget->hide();
 
 	/* trackingStatusLight setup*/
-	trackingStatusLight->setFixedSize(QSize(200, 200));
+	trackingStatusLight->setFixedSize(QSize(12, 12));
 	
 	trackingStatusLight->setAutoFillBackground(true);
 	setIndicatorLightColor(trackingStatusLight);
 	
-
+	
 	mainLayout->addWidget(videoTabs);
 	mainLayout->addWidget(blurWidget);
 	mainLayout->addWidget(thresholdWidget);
-	mainLayout->addWidget(saveBtn);
-	mainLayout->addWidget(loadBtn);
-	mainLayout->addWidget(chkBoxProcess);
-	mainLayout->addWidget(chkBoxDetect);
-	mainLayout->addWidget(trackingStatusLight);
+	mainLayout->addLayout(addWidgetLayout);
+	addWidgetLayout->addWidget(saveBtn);
+	addWidgetLayout->addWidget(chkBoxProcess);
+	addWidgetLayout->addWidget(chkBoxDetect);
+	addWidgetLayout->addWidget(blobInfo);
+	addWidgetLayout->addWidget(trackingStatusLight);
 	setLayout(mainLayout);
 
 	connect(saveBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::saveImage);
-	connect(loadBtn, &QPushButton::clicked, this, &VR_ColorCalibrator::loadImage);
 	connect(&imageProcessor, &VR_ImageProcessor::processDone, this, &VR_ColorCalibrator::receiveFrame);
 	connect(videoTabs, &QTabWidget::currentChanged, this, &VR_ColorCalibrator::tabChanged);
 
@@ -169,15 +169,9 @@ void VR_ColorCalibrator::processStateChanged()
 
 void VR_ColorCalibrator::receiveViewerCoordinates(int x, int y, int z)
 {
+	string text = "[X:" + std::to_string(x) + ",Y:" + std::to_string(y) + ",Z:" + std::to_string(z) + "]";
+	blobInfo->setText(QString::fromStdString(text));
 	emit sendViewerCoordinates(x, y, z);
-}
-
-void VR_ColorCalibrator::loadImage()
-{
-	QImage img(getImagePath());
-	imageProcessor.disconnect();
-	imageProcessor.setStaticImg(&img);
-	
 }
 
 QString VR_ColorCalibrator::getImagePath()

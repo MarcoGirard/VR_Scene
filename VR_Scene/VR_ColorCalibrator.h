@@ -25,7 +25,7 @@ class VR_ColorCalibrator : public QDialog
 private:
 	QTabWidget * videoTabs;
 	QHBoxLayout * mainLayout;
-	QVBoxLayout * thresholdWidgetLayout, * blurWidgetLayout;
+	QVBoxLayout * thresholdWidgetLayout, * blurWidgetLayout, * addWidgetLayout;
 	QWidget * mainWidget, * blurWidget, * thresholdWidget;
 	QLabel * rawVideoLabel,
 		   *blurVideoLabel,
@@ -34,28 +34,25 @@ private:
 		   *activeVideoLabel,
 		   *erodedVideoLabel,
 		   *blobVideoLabel,
-	       *trackingStatusLight;
+	       *trackingStatusLight,
+		   *blobInfo;
 	VR_ImageProcessor imageProcessor;
 	QLowHighScrollBar * hueScrollBar;
 	QLowHighScrollBar * saturationScrollBar;
 	QLowHighScrollBar * valueScrollBar;
 	QSpinBox * blurSpinbox;
 	VR_ThresholdValues currentThresholdValues;
-	QPushButton * saveBtn, * loadBtn;
+	QPushButton * saveBtn;
 	unsigned int savedImgCount{ 0 };
 	QCheckBox * chkBoxProcess, * chkBoxDetect;
-	
 	
 	VR_ImageProcessor::ProcessedImageType currentFrameType;
 
 	bool tracked{ false };
 
-
-
 public:
 	VR_ColorCalibrator(QWidget *parent);
 	VR_ThresholdValues thresholdValues();
-	void loadImage();
 	QString getImagePath();
 	void process();
 	void setIndicatorLightColor(QLabel * label);

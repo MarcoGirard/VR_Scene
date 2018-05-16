@@ -10,6 +10,7 @@
 #include <QPixmap>
 #include <string>
 #include <QPainter>
+#include <QPixmap>
 
 //using namespace cv;
 
@@ -23,6 +24,7 @@ private:
 	VR_ErodeProcess * erodeProcess;
 	VR_BlobProcess * blobProcess;
 	cv::Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage, blobImage;
+	QPixmap * displayPixmap;
 	bool mProcess{ true };
 	bool mDetect{ true };
 	
@@ -35,7 +37,6 @@ public:
 	QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format);
 	void disconnect();
 	void setProcess(bool process);
-	void setStaticImg(QImage * img);
 
 	bool isTracked() { return blobProcess->isTracked(); }
 
