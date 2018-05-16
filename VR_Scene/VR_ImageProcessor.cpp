@@ -8,8 +8,7 @@ VR_ImageProcessor::VR_ImageProcessor(QObject * parent) :
 	blurProcess{new VR_BlurProcess(parent)},
 	thresholdProcess{ new VR_ThresholdProcess(parent) },
 	erodeProcess{new VR_ErodeProcess(parent)},
-	blobProcess{new VR_BlobProcess(parent)},
-	displayPixmap{ new QPixmap()}
+	blobProcess{new VR_BlobProcess(parent)}
 {
 	connect(frameGrabber, &VR_FrameGrabberProcess::startProcess, this, &VR_ImageProcessor::process);
 }
@@ -19,33 +18,33 @@ VR_ImageProcessor::~VR_ImageProcessor()
 {
 }
 
-QPixmap VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frameType)
+QPixmap & VR_ImageProcessor::getPixmap(VR_ImageProcessor::ProcessedImageType frameType)
 {
 	switch (frameType) {
-	case VR_ImageProcessor::ProcessedImageType::RAW :  displayPixmap->convertFromImage(mat_to_qimage_ref(rawImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::RAW : displayPixmap.convertFromImage(mat_to_qimage_ref(rawImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLURRED :   displayPixmap->convertFromImage(mat_to_qimage_ref(blurredImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::BLURRED : displayPixmap.convertFromImage(mat_to_qimage_ref(blurredImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::THRESHOLDED :  displayPixmap->convertFromImage(mat_to_qimage_ref(thresholdedImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::THRESHOLDED : displayPixmap.convertFromImage(mat_to_qimage_ref(thresholdedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::ERODED : displayPixmap->convertFromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::ERODED : displayPixmap.convertFromImage(mat_to_qimage_ref(erodedImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::BLOB: displayPixmap->convertFromImage(mat_to_qimage_ref(blobImage, QImage::Format_ARGB32));
+	case VR_ImageProcessor::ProcessedImageType::BLOB: displayPixmap.convertFromImage(mat_to_qimage_ref(blobImage, QImage::Format_ARGB32));
 		break;
-	case VR_ImageProcessor::ProcessedImageType::FINAL : displayPixmap->convertFromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));;
+	case VR_ImageProcessor::ProcessedImageType::FINAL : displayPixmap.convertFromImage(mat_to_qimage_ref(finalImage, QImage::Format_ARGB32));;
 		break;
 	}
-	QPainter paint(displayPixmap);
+	QPainter paint(&displayPixmap);
 	paint.setPen(QColor(255, 255, 255, 255));
 	paint.drawText(QPoint(blobProcess->x(),blobProcess->y()),"+");
-	paint.drawLine(320, 0, 320, 480);
-	return *displayPixmap;
+	//paint.drawLine(320, 0, 320, 480);
+	return displayPixmap;
 }
 
 // Pris sur http://qtandopencv.blogspot.ca/2013/08/how-to-convert-between-cvmat-and-qimage.html
 QImage VR_ImageProcessor::mat_to_qimage_ref(cv::Mat & mat, QImage::Format format)
 {
-	return QImage(mat.data, mat.cols, mat.rows, mat.step, format);
+	return QImage(mat.data, mat.cols, mat.rows, mat.step, format).copy();
 }
 
 void VR_ImageProcessor::disconnect()
@@ -70,7 +69,6 @@ void VR_ImageProcessor::updateThresholdValues(VR_ThresholdValues newValues)
 
 void VR_ImageProcessor::kernelSizeUpdated(int newKernelSize)
 {
-	//emit updateKernelSize(newKernelSize);
 	blurProcess->updateKernelSize(newKernelSize);
 	if (!mProcess) {
 		process();
@@ -86,10 +84,7 @@ void VR_ImageProcessor::toggleBlobDetection()
 	}
 }
 
-void VR_ImageProcessor::receiveViewerCoordinates(int x, int y, int z)
-{
-	emit sendViewerCoordinates(x, y, z);
-}
+
 
 void VR_ImageProcessor::process()
 {
@@ -102,7 +97,6 @@ void VR_ImageProcessor::process()
 	//erodeProcess->process(thresholdedImage, erodedImage);
 	if (mDetect) {
 		blobProcess->process(thresholdedImage, blobImage);
-		emit sendViewerCoordinates(blobProcess->x(), blobProcess->y(), blobProcess->z());
 	}
 	emit processDone();
 }

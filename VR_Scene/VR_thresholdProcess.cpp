@@ -20,6 +20,7 @@ void VR_ThresholdProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 
 	imgIn.copyTo(imgOut);
 
+
 	int *inCur = reinterpret_cast<int*>((uchar*)(imgIn.ptr()));
 	int *outCur = reinterpret_cast<int*>((uchar*)(imgOut.ptr()));
 	int *outEnd = outCur + imgIn.rows * imgIn.cols;
@@ -43,7 +44,7 @@ void VR_ThresholdProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 		
 		/* test si le pixel respectent les conditions de segmentation */
 		// J'ai un potientiel d'optimisation ici... (ordre du if/else)
-		if (h>hMin && h<hMax && s>sMin && s<sMax && v>vMin && v<vMax) {
+		if (h>=hMin && h<=hMax && s>=sMin && s<=sMax && v>=vMin && v<=vMax) {
 			*outCur = 0xFFFFFFFF;
 		} else {
 			*outCur = 0xFF000000;

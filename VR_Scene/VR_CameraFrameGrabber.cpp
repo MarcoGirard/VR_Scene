@@ -52,16 +52,16 @@ bool VR_CameraFrameGrabber::present(QVideoFrame const & frame)
 	if (frame.isValid()) {
 		QVideoFrame cloneFrame(frame);
 		cloneFrame.map(QAbstractVideoBuffer::ReadOnly);
-		QImage image(cloneFrame.bits(),
+		QImage image(QImage(cloneFrame.bits(),
 			cloneFrame.width(),
 			cloneFrame.height(),
-			QVideoFrame::imageFormatFromPixelFormat(cloneFrame.pixelFormat()));
+			QVideoFrame::imageFormatFromPixelFormat(cloneFrame.pixelFormat())).convertToFormat(QImage::Format_ARGB32));
 		cloneFrame.unmap();
 
-		// Image format standardization
-		if (image.format() != QImage::Format_ARGB32) {
-			image = image.convertToFormat(QImage::Format_ARGB32);
-		}
+		//// Image format standardization
+		//if (image.format() != QImage::Format_ARGB32) {
+		//	image = image.convertToFormat(QImage::Format_ARGB32);
+		//}
 
 		emit frameAvailable(image);
 		return true;

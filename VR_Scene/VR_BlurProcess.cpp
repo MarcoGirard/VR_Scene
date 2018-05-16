@@ -18,6 +18,7 @@ VR_BlurProcess::~VR_BlurProcess()
 void VR_BlurProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 {
 	imgIn.copyTo(imgOut);
+	return;
 	
 	imgWidth = imgIn.cols;
 	imgHeight = imgIn.rows;
@@ -40,20 +41,23 @@ void VR_BlurProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 	/* loop through imgs */
 	for (int i{ 0 }; i < iterationHeight; ++i) {
 		for (int j{ 0 }; j < iterationWidth; ++j) {
-			kernelPixel = currentInPixel;
-			*curOut = 0;
+			kernelPixel = currentInPixel - verticalOffset;
 			totalR = totalG = totalB = 0.0;
 			
 			/* loop around pixel */
-			for (int l{ -verticalOffset }; l <= verticalOffset; l += verticalOffset){
-				kernelPixel += l;
+			int h{ 0 };
+			int v{ 0 };
+			for (int l{ -verticalOffset }; l <= verticalOffset; l += imgWidth){
+				kernelPixel += imgWidth;
 				for (int k{ -horizontalOffset }; k <= horizontalOffset; ++k) {
 					kernelPixel += k;
 
 					totalR += (*kernelPixel & 0x00ff0000) >> 16;
 					totalG += (*kernelPixel & 0x0000ff00) >> 8;
 					totalB += (*kernelPixel & 0x000000ff);
+					++h;
 				}
+				++v;
 			}
 			totalR /= (currentKernelSize * currentKernelSize);
 			totalG /= (currentKernelSize * currentKernelSize);
@@ -61,9 +65,9 @@ void VR_BlurProcess::process(const cv::Mat &imgIn, cv::Mat &imgOut)
 			
 
 			*curOut = 0xFF000000
-			 | (static_cast<unsigned int>(std::floor(totalR)) << 16)
-			 | (static_cast<unsigned int>(std::floor(totalG)) << 8)
-			 | (static_cast<unsigned int>(std::floor(totalB)));
+			 | (static_cast<int>(totalR) << 16)
+			 | (static_cast<int>(totalG) << 8)
+			 | (static_cast<int>(totalB));
 
 			/* pendant l'itération sur une ligne, on tasse de "un pixel" (32bits) */
 			++curOut;

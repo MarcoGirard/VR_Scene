@@ -19,7 +19,8 @@ int VR_BlobProcess::getDistance()
 
 void VR_BlobProcess::process(const cv::Mat & imgIn, cv::Mat & imgOut)
 {
-
+	// TO DO
+	// À METTRE DANS LE CONSTRUCTEUR
 	// Setup SimpleBlobDetector parameters.
 	cv::SimpleBlobDetector::Params params;
 
@@ -66,6 +67,9 @@ void VR_BlobProcess::process(const cv::Mat & imgIn, cv::Mat & imgOut)
 	cvtColor(imgInDummy, imgInDummy, CV_RGB2GRAY);
 	
 	drawKeypoints(imgInDummy, keypoints, imgOut, cv::Scalar(255,128,128), cv::DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
+	
+	// TEST
+	//detector.release();
 }
 
 bool VR_BlobProcess::isTracked()

@@ -26,7 +26,7 @@ VR_Scene::VR_Scene(QWidget *parent)
 
 
 	// POUR LE DEVELOPPEMENT,
-	//startColorCalibrator();
+	startColorCalibrator();
 }
 
 void VR_Scene::startColorCalibrator()

@@ -10,6 +10,7 @@ private:
 	bool tracked{ false };
 	int mX{ 0 }, mY{ 0 }, mZ{ 0 };
 	int x1{ 0 }, y1{ 0 }, x2{ 0 }, y2{ 0 };
+	// DETECTEUR MEMBRE
 
 public:
 	VR_BlobProcess(QObject * parent = nullptr);

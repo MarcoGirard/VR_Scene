@@ -24,7 +24,7 @@ private:
 	VR_ErodeProcess * erodeProcess;
 	VR_BlobProcess * blobProcess;
 	cv::Mat rawImage, blurredImage, erodedImage, thresholdedImage, finalImage, blobImage;
-	QPixmap * displayPixmap;
+	QPixmap displayPixmap;
 	bool mProcess{ true };
 	bool mDetect{ true };
 	
@@ -33,10 +33,11 @@ public:
 	enum class ProcessedImageType { RAW, BLURRED, THRESHOLDED, ERODED, DILATED, FINAL, BLOB };
 	VR_ImageProcessor(QObject * parent=nullptr);
 	~VR_ImageProcessor();
-	QPixmap getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);
+	QPixmap & getPixmap(VR_ImageProcessor::ProcessedImageType imgLabel);
 	QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format);
 	void disconnect();
 	void setProcess(bool process);
+	VR_BlobProcess getBlobProcess() { return blobProcess; }
 
 	bool isTracked() { return blobProcess->isTracked(); }
 
@@ -48,7 +49,6 @@ public slots:
 	void updateThresholdValues(VR_ThresholdValues newValues);
 	void kernelSizeUpdated(int newKernelSize);
 	void toggleBlobDetection();
-	void receiveViewerCoordinates(int x, int y, int z);
 
 signals:
 	void processDone();
